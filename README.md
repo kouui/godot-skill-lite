@@ -25,8 +25,8 @@ To try a local checkout:
   marketplace.json   single-plugin marketplace (source: ./)
 agents/
   godot-game-builder.md   subagent that builds and verifies a whole game
-skills/
-  godot/
+skill/
+  godot/             the Godot skill, read only by the subagent
     SKILL.md         skill entry point
     references/      on-demand reference docs
     scripts/         bundled Python / GDScript tooling
@@ -35,7 +35,7 @@ skills/
 
 ## Usage
 
-The `godot` skill loads on its own for Godot work. For a whole game or feature, delegate to the subagent: ask Claude to "use the godot-game-builder agent to make a Sokoban game in ./sokoban", or mention `@agent-godot:godot-game-builder`.
+The Godot skill lives in `skill/` rather than `skills/`, so Claude Code does not register it as a shared skill: the main agent and other subagents never see it, and only `godot-game-builder` reads it. Delegate Godot work to that subagent: ask Claude to "use the godot-game-builder agent to make a Sokoban game in ./sokoban", or mention `@agent-godot:godot-game-builder`.
 
 ## Requirements
 
