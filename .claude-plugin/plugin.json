@@ -1,0 +1,10 @@
+{
+  "name": "godot",
+  "version": "0.1.0",
+  "description": "Godot 4.x game development (verified on 4.7): scaffold, inspect, edit, lint, test, debug and export Godot projects headlessly, with text read-backs that need no vision.",
+  "author": { "name": "kouui" },
+  "homepage": "https://github.com/kouui/godot-skill-lite",
+  "repository": "https://github.com/kouui/godot-skill-lite",
+  "license": "MIT",
+  "keywords": ["godot", "gdscript", "gamedev", "game-development"]
+}
