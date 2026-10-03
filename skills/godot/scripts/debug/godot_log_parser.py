@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Parse Godot 4.7 stdout/stderr into structured diagnostics.
 
 The parser turns the raw text the Godot debugger prints when a project runs

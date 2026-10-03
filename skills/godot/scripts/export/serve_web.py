@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Serve a Godot web export locally with the headers a Godot build needs.
 
 Two things stop a Godot 4 web export from running, and neither produces a
@@ -13,11 +17,11 @@ useful message in the browser:
   ``Cross-Origin-Opener-Policy: same-origin`` **and**
   ``Cross-Origin-Embedder-Policy: require-corp`` on the HTML response.
 
-This is ``python3 -m http.server`` plus those headers, the right MIME types for
+This is ``python -m http.server`` plus those headers, the right MIME types for
 ``.wasm``/``.pck`` and no caching (so a re-export is picked up on reload).
 
-    python3 serve_web.py ../build/web                # serve until Ctrl+C
-    python3 serve_web.py ../build/web --check        # start, self-test, exit
+    uv run serve_web.py ../build/web                # serve until Ctrl+C
+    uv run serve_web.py ../build/web --check        # start, self-test, exit
 
 ``--check`` is the headless-agent mode: it starts the server, requests
 ``index.html`` and the ``.wasm`` over the loopback interface, asserts the status
@@ -223,7 +227,7 @@ def main(argv: list[str] | None = None) -> int:
             f"No .html file in {directory} — that is not a Godot web export. Create one with:\n"
             "  godot --headless --path PROJECT --script scripts/core/dispatcher.gd "
             "add_export_preset '{\"platform\":\"web\"}'\n"
-            "  python3 scripts/export/export_project.py PROJECT Web "
+            "  uv run scripts/export/export_project.py PROJECT Web "
             f"{directory}/index.html",
             directory=str(directory), found=sorted(p.name for p in directory.iterdir())[:20])
     entry = args.open_url or ("index.html" if "index.html" in export["html"] else export["html"][0])

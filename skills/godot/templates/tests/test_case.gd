@@ -9,7 +9,7 @@
 #       assert_eq(2 + 2, 4)
 #
 # Then run it:
-#   python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/project --pretty
+#   uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/project --pretty
 #
 # Deliberately path-extends and declares NO class_name: nothing has to be in
 # .godot/global_script_class_cache.cfg, so no `--import` pass is needed and the

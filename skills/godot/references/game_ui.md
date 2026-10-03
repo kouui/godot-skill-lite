@@ -650,7 +650,7 @@ godot --headless --path /absolute/path/to/project \
       {"type": "rect_outline", "x": 5, "y": 5, "width": 38, "height": 38, "color": "#7a5c12", "thickness": 1}
     ]
   }'
-python3 /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
+uv run /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
 ```
 
 ```bash
@@ -777,7 +777,7 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py \
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py \
   /absolute/path/to/project /absolute/path/to/project/ui_scenario.json --headless --pretty
 ```
 

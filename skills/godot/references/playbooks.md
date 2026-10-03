@@ -298,9 +298,9 @@ the validation run carries a warning.
 ### Verify
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 60 --timeout 60 --pretty
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 60 --timeout 60 --pretty
 ```
 
 Expected: `lint_project.py` reports `"ok": true` with `counts.errors == 0`;
@@ -423,10 +423,10 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 120 --timeout 60 --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 120 --timeout 60 --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_player.json --pretty
 ```
 
@@ -529,10 +529,10 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project res://scenes/room.tscn --quit-after 120 --timeout 60 --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project res://scenes/room.tscn --quit-after 120 --timeout 60 --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_topdown.json --pretty
 ```
 
@@ -742,10 +742,10 @@ JSON
 
 ```bash
 godot --headless --path /absolute/path/to/project --import
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 120 --timeout 60 --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 120 --timeout 60 --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_enemy.json --pretty
 ```
 
@@ -785,7 +785,7 @@ godot --headless --path /absolute/path/to/project \
         {"type": "checker", "colors": ["#8b9bb4", "#5a6988"], "cell": 8}]}
     ]
   }'
-python3 /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project --pretty
 ```
 
 That writes a 48x16 atlas: three 16x16 cells whose atlas coordinates are the
@@ -884,9 +884,9 @@ godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   inspect_tilemap '{"scene_path":"scenes/tile_level.tscn","node_path":"root/Ground","format":"text"}'
 
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project \
   res://scenes/tile_level.tscn --quit-after 120 --timeout 60 --pretty
 ```
 
@@ -1079,9 +1079,9 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_menu.json --pretty
 ```
 
@@ -1211,10 +1211,10 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 120 --timeout 60 --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 120 --timeout 60 --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_hud.json --pretty
 ```
 
@@ -1322,9 +1322,9 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_pause.json --log-file /absolute/path/to/project/pause.log --pretty
 ```
 
@@ -1494,9 +1494,9 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_dialog.json --pretty
 ```
 
@@ -1642,7 +1642,7 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_save.json --pretty
 ```
 
@@ -1657,11 +1657,11 @@ The slot is valid again (the run above saved over it), so this is the clean-path
 run and it must be error-free:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project \
   --quit-after 180 --timeout 60 --log-file /absolute/path/to/project/save.log --pretty
-python3 /absolute/path/to/godot/scripts/debug/godot_log_parser.py /absolute/path/to/project/save.log --pretty
+uv run /absolute/path/to/godot/scripts/debug/godot_log_parser.py /absolute/path/to/project/save.log --pretty
 grep '\[SAVE\]' /absolute/path/to/project/save.log
 ```
 
@@ -1766,10 +1766,10 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 120 --timeout 60 --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 120 --timeout 60 --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_audio.json --pretty
 ```
 
@@ -1909,10 +1909,10 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project res://scenes/level_3d.tscn --quit-after 180 --timeout 60 --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project res://scenes/level_3d.tscn --quit-after 180 --timeout 60 --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_fps.json --pretty
 ```
 
@@ -1943,11 +1943,11 @@ sample library, no network and no audio device.
 
 ```bash
 mkdir -p /absolute/path/to/project/audio
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset jump --seed 7 --out /absolute/path/to/project/audio/
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset coin --seed 7 --out /absolute/path/to/project/audio/
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset hit --seed 7 --variations 3 --out /absolute/path/to/project/audio/
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset confirm --seed 7 --out /absolute/path/to/project/audio/ui_confirm.wav
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset cancel --seed 7 --out /absolute/path/to/project/audio/ui_cancel.wav
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset jump --seed 7 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset coin --seed 7 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset hit --seed 7 --variations 3 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset confirm --seed 7 --out /absolute/path/to/project/audio/ui_confirm.wav
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset cancel --seed 7 --out /absolute/path/to/project/audio/ui_cancel.wav
 ```
 
 Each run prints one JSON report whose `files[0].expect` block is the gate for
@@ -1961,7 +1961,7 @@ to presets.
 ### Step 2 — Synthesize the music loop
 
 ```bash
-python3 /absolute/path/to/godot/scripts/assets/make_music.py --preset overworld --bars 4 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_music.py --preset overworld --bars 4 --out /absolute/path/to/project/audio/
 ```
 
 The report says `"loop_safe": true` and `"loop_seam_delta": 0.0`: the release
@@ -2086,9 +2086,9 @@ the import, not before.
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   inspect_audio '{"audio_paths":["audio"],"expect":{"not_silent":true,"no_clipping":true}}'
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project \
   --quit-after 120 --timeout 60 --log-file /absolute/path/to/project/run.log --pretty
 grep '\[AUDIO\]' /absolute/path/to/project/run.log
 ```
@@ -2235,7 +2235,7 @@ Answer: `"margins": {"left": 3, "top": 3, "right": 3, "bottom": 3}` plus the
 ### Step 4 — Import, then turn the sheet into SpriteFrames
 
 ```bash
-python3 /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
+uv run /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
 ```
 
 ```bash
@@ -2356,7 +2356,7 @@ godot --headless --path /absolute/path/to/project \
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   inspect_resource '{"resource_path":"theme/main.tres"}'
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
 ```
 
 Expected: `inspect_image` exits 0 with every `expect_results` entry
@@ -2419,7 +2419,7 @@ godot --headless --path /absolute/path/to/project \
     "read_back": false,
     "rows": ["..kcck..", "...cc...", "..cccc..", ".cggggc.", "cglggggc", "cggggggc", "cggggggc", ".cccccc."]
   }'
-python3 /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
+uv run /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
 ```
 
 ### Step 3 — One .tres per item
@@ -2724,7 +2724,7 @@ godot --headless --path /absolute/path/to/project \
 
 ```bash
 test -f /absolute/path/to/project/tests/test_case.gd || \
-  python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --init-mini
+  uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --init-mini
 rm -f /absolute/path/to/project/tests/test_example.gd
 ```
 
@@ -2866,8 +2866,8 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenarios/bag.json --pretty
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
@@ -2875,8 +2875,8 @@ godot --headless --path /absolute/path/to/project \
     "scene_path": "scenes/level_1.tscn",
     "code": "var bag: Inventory = scene.get_node(\"Hero/Inventory\")\nvar coin: ItemData = load(\"res://items/coin.tres\")\nbag.add(coin, 7)\nscene.call(&\"save_progress\")\nbag.clear()\nvar emptied: int = bag.count(coin)\nscene.call(&\"load_progress\")\nreturn {\"after_clear\": emptied, \"after_load\": bag.count(coin), \"slot_file\": FileAccess.file_exists(\"user://saves/slot_0.json\")}"
   }'
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
 ```
 
 Expected: `run_tests.py` `"ok": true` with 8 passed; the scenario `"ok": true`
@@ -3054,7 +3054,7 @@ boundary.
 
 ```bash
 test -f /absolute/path/to/project/tests/test_case.gd || \
-  python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --init-mini
+  uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --init-mini
 rm -f /absolute/path/to/project/tests/test_example.gd
 ```
 
@@ -3211,11 +3211,11 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenarios/talk.json --pretty
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
 ```
 
 Expected: `run_tests.py` `"ok": true` (8 dialogue tests, plus playbook 15's if
@@ -3520,16 +3520,16 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenarios/settings_720.json --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenarios/settings_360.json --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenarios/remap.json --pretty
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   run_gdscript '{"code":"var m: int = AudioServer.get_bus_index(\"Master\")\nvar u: int = AudioServer.get_bus_index(\"Music\")\nvar e: Array[InputEvent] = InputMap.action_get_events(\"interact\")\nreturn {\"master\": Settings.master_volume, \"music\": Settings.music_volume, \"fullscreen\": Settings.fullscreen, \"master_db\": snappedf(AudioServer.get_bus_volume_db(m), 0.001), \"music_db\": snappedf(AudioServer.get_bus_volume_db(u), 0.001), \"interact\": e[0].as_text() if e.size() > 0 else \"unbound\", \"jump_events\": InputMap.action_get_events(\"jump\").size()}"}'
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
 ```
 
 Expected, in order:
@@ -3784,9 +3784,9 @@ the goal.
 ### Step 4 — Synthesize the sound
 
 ```bash
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset jump --seed 3 --out /absolute/path/to/project/audio/
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset coin --seed 5 --out /absolute/path/to/project/audio/
-python3 /absolute/path/to/godot/scripts/assets/make_music.py --preset overworld --bars 4 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset jump --seed 3 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset coin --seed 5 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_music.py --preset overworld --bars 4 --out /absolute/path/to/project/audio/
 ```
 
 Then read the three files back before anything points at them. They have no
@@ -3805,7 +3805,7 @@ with `loop_seam_delta: 0.0`, and every `expect.*` line `PASS`.
 ### Step 5 — Import, and make the music loop
 
 ```bash
-python3 /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project --pretty
 ```
 
 ```bash
@@ -4205,9 +4205,9 @@ godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   inspect_tilemap '{"scene_path":"scenes/level_1.tscn","node_path":"root/Ground","format":"text"}'
 
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_collectathon.json --log-file /tmp/collectathon.log --pretty
 ```
 
@@ -4409,9 +4409,9 @@ godot --headless --path /absolute/path/to/project \
 ### Step 3 — Sound
 
 ```bash
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset shoot --seed 2 --out /absolute/path/to/project/audio/
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset hit --seed 4 --out /absolute/path/to/project/audio/
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset explosion --seed 6 --variations 2 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset shoot --seed 2 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset hit --seed 4 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset explosion --seed 6 --variations 2 --out /absolute/path/to/project/audio/
 ```
 
 `--variations 2` writes `explosion_1.wav` and `explosion_2.wav`, siblings of the
@@ -4813,9 +4813,9 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_arena.json --log-file /tmp/arena.log --pretty
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
@@ -5059,7 +5059,7 @@ godot --headless --path /absolute/path/to/project \
 ### Step 6 — Unit-test the rules
 
 ```bash
-python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --init-mini
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --init-mini
 rm /absolute/path/to/project/tests/test_example.gd
 ```
 
@@ -5244,10 +5244,10 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_puzzle.json --log-file /tmp/puzzle.log --pretty
 ```
 
@@ -5482,9 +5482,9 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_thirdperson.json --log-file /tmp/thirdperson.log --pretty
 ```
 
@@ -5532,7 +5532,7 @@ expectations.
 ### 1. Lint — no Godot needed, under a second
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
 ```
 
 Wants `"ok": true` with `counts.errors == 0`. This is the only check that runs
@@ -5544,7 +5544,7 @@ actions that are not in the input map, group names nothing ever joins, and
 ### 2. Validate — the engine loading every file, warnings included
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
 ```
 
 Wants `"ok": true`, `counts.errors == 0`, `counts.warnings == 0`,
@@ -5558,7 +5558,7 @@ never return a hit.
 ### 3. Unit tests
 
 ```bash
-python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
 ```
 
 Wants `"ok": true` and `counts.failed == 0`, `counts.errors == 0`. If the answer
@@ -5596,7 +5596,7 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_final.json --log-file /tmp/final.log --pretty
 ```
 
@@ -5619,7 +5619,7 @@ Wants `"ok": true`, every report `passed`, and the screenshot line reading
 ### 5. Boot every scene, with the input fuzzed
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project --all --fuzz --pretty
+uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project --all --fuzz --pretty
 ```
 
 Wants `"ok": true` with `counts.failed == 0`. It runs every `.tscn` in its own
@@ -5672,7 +5672,7 @@ compare a screenshot from both settings.
 Neither of these is a gate, but both are cheaper than a failed run:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/docs/api_lookup.py AnimatableBody2D.sync_to_physics NavigationServer2D.map_get_regions
+uv run /absolute/path/to/godot/scripts/docs/api_lookup.py AnimatableBody2D.sync_to_physics NavigationServer2D.map_get_regions
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   run_gdscript '{"expression":"Vector2(3, 4).length()"}'
@@ -5688,12 +5688,12 @@ value back out of a resource.
 ### The whole checklist, copy-paste
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
-python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --warnings-as-errors --pretty
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario_final.json --pretty
-python3 /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project --all --fuzz --pretty
+uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project --all --fuzz --pretty
 ```
 
 Every one of those exits non-zero when it fails, so in CI they chain with `&&`

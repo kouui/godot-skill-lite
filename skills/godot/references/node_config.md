@@ -31,7 +31,7 @@ godot --headless --path /absolute/path/to/project \
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
 ```
 
 One scene at a time, with its stored properties:

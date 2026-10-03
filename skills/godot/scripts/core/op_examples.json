@@ -101,7 +101,7 @@
       "include_entries": true
     },
     "notes": [
-      "Read-only. Run `python3 scripts/import/import_project.py <project>` first to actually (re)import, then audit.",
+      "Read-only. Run `uv run scripts/import/import_project.py <project>` first to actually (re)import, then audit.",
       "Statuses are ok, missing, invalid, stale, and orphaned.",
       "stale is decided the way the editor decides it: the source md5 against the importer record in .godot/imported/<name>-<hash>.md5, never by timestamps. A regenerated but byte-identical file is not stale; a changed file that was not re-imported is, and the issue text says to run --import."
     ],
@@ -1772,7 +1772,7 @@
       }
     },
     "notes": [
-      "Follow with `python3 scripts/import/import_project.py <project>` (or `godot --headless --import`) — the op reports reimport_required: true and changes nothing until the importer runs.",
+      "Follow with `uv run scripts/import/import_project.py <project>` (or `godot --headless --import`) — the op reports reimport_required: true and changes nothing until the importer runs.",
       "WAV loop is edit/loop_mode and the importer enum is offset from the resource enum: 0 Detect, 1 Disabled, 2 Forward, 3 Ping-Pong, 4 Backward. Ogg/MP3 use the loop bool plus loop_offset seconds.",
       "Whole-number values are written as ints — JSON numbers arrive as floats and importer params are typed.",
       "The keys inside options are importer parameter names and are never param-checked; audit_imports reports whether the reimport landed."
@@ -1826,87 +1826,87 @@
     {
       "script": "scripts/debug/lint_project.py",
       "summary": "Static lint, no Godot needed: Godot 3 API, un-inferable :=, dead node/signal/resource/input-action references.",
-      "command": "python3 <skill>/scripts/debug/lint_project.py <project> --pretty"
+      "command": "uv run <skill>/scripts/debug/lint_project.py <project> --pretty"
     },
     {
       "script": "scripts/debug/validate_project.py",
       "summary": "Whole-project validation: lint + check_project with the debugger attached + node configuration warnings.",
-      "command": "python3 <skill>/scripts/debug/validate_project.py <project> --pretty"
+      "command": "uv run <skill>/scripts/debug/validate_project.py <project> --pretty"
     },
     {
       "script": "scripts/debug/run_project.py",
       "summary": "Run the project (or one scene) headless and return the debugger's errors as diagnostics.",
-      "command": "python3 <skill>/scripts/debug/run_project.py <project> --quit-after 120 --timeout 60 --pretty"
+      "command": "uv run <skill>/scripts/debug/run_project.py <project> --quit-after 120 --timeout 60 --pretty"
     },
     {
       "script": "scripts/debug/run_scenario.py",
       "summary": "Deterministic scenario: input, assertions, dump_tree, ui_report, spatial_report, screenshot gates.",
-      "command": "python3 <skill>/scripts/debug/run_scenario.py <project> /absolute/scenario.json --pretty"
+      "command": "uv run <skill>/scripts/debug/run_scenario.py <project> /absolute/scenario.json --pretty"
     },
     {
       "script": "scripts/debug/smoke_scenes.py",
       "summary": "Boot every scene in its own process; seeded input fuzzing; leak, hang and crash findings.",
-      "command": "python3 <skill>/scripts/debug/smoke_scenes.py <project> --seconds 2 --jobs 4 --pretty"
+      "command": "uv run <skill>/scripts/debug/smoke_scenes.py <project> --seconds 2 --jobs 4 --pretty"
     },
     {
       "script": "scripts/debug/godot_log_parser.py",
       "summary": "Turn any Godot log into {ok, counts, diagnostics[]}.",
-      "command": "python3 <skill>/scripts/debug/godot_log_parser.py /absolute/run.log"
+      "command": "uv run <skill>/scripts/debug/godot_log_parser.py /absolute/run.log"
     },
     {
       "script": "scripts/debug/probe_environment.py",
       "summary": "Report the Godot version, export templates, host tools and project languages.",
-      "command": "python3 <skill>/scripts/debug/probe_environment.py <project> --pretty"
+      "command": "uv run <skill>/scripts/debug/probe_environment.py <project> --pretty"
     },
     {
       "script": "scripts/docs/api_lookup.py",
       "summary": "Exact signatures from the installed engine: classes, members, Variant types, globals, theme items.",
-      "command": "python3 <skill>/scripts/docs/api_lookup.py CharacterBody2D.move_and_slide"
+      "command": "uv run <skill>/scripts/docs/api_lookup.py CharacterBody2D.move_and_slide"
     },
     {
       "script": "scripts/test/run_tests.py",
       "summary": "Run unit tests: GUT, GdUnit4, or the bundled zero-install runner (--init-mini installs it).",
-      "command": "python3 <skill>/scripts/test/run_tests.py <project> --pretty"
+      "command": "uv run <skill>/scripts/test/run_tests.py <project> --pretty"
     },
     {
       "script": "scripts/assets/make_sfx.py",
       "summary": "Synthesize a sound-effect WAV from a preset (coin, jump, hit, explosion, ...); --list-presets.",
-      "command": "python3 <skill>/scripts/assets/make_sfx.py --preset jump --out <project>/audio/"
+      "command": "uv run <skill>/scripts/assets/make_sfx.py --preset jump --out <project>/audio/"
     },
     {
       "script": "scripts/assets/make_music.py",
       "summary": "Render a seamlessly looping chiptune WAV from a preset or a JSON song; --list-presets.",
-      "command": "python3 <skill>/scripts/assets/make_music.py --preset overworld --out <project>/audio/"
+      "command": "uv run <skill>/scripts/assets/make_music.py --preset overworld --out <project>/audio/"
     },
     {
       "script": "scripts/assets/chroma_key_cutout.py",
       "summary": "Cut a flat chroma-key background out of generated art (needs Pillow + NumPy; process_image needs neither).",
-      "command": "python3 <skill>/scripts/assets/chroma_key_cutout.py --help"
+      "command": "uv run <skill>/scripts/assets/chroma_key_cutout.py --help"
     },
     {
       "script": "scripts/project/move_resource.py",
       "summary": "Move or rename files and folders and rewrite every reference - never use mv inside a project.",
-      "command": "python3 <skill>/scripts/project/move_resource.py <project> art/player.png art/sprites/ --dry-run"
+      "command": "uv run <skill>/scripts/project/move_resource.py <project> art/player.png art/sprites/ --dry-run"
     },
     {
       "script": "scripts/project/scaffold_project.py",
       "summary": "Create a new project from a preset (pixel2d, hd2d, 3d, ui): settings, input map, layers, main scene.",
-      "command": "python3 <skill>/scripts/project/scaffold_project.py /absolute/new_project --preset pixel2d --pretty"
+      "command": "uv run <skill>/scripts/project/scaffold_project.py /absolute/new_project --preset pixel2d --pretty"
     },
     {
       "script": "scripts/import/import_project.py",
       "summary": "Run the importer and audit missing, stale and orphaned import artifacts.",
-      "command": "python3 <skill>/scripts/import/import_project.py <project> --pretty"
+      "command": "uv run <skill>/scripts/import/import_project.py <project> --pretty"
     },
     {
       "script": "scripts/export/export_project.py",
       "summary": "Export a preset with preflight and artifact verification.",
-      "command": "python3 <skill>/scripts/export/export_project.py <project> \"Web\" /absolute/build/web/index.html --preflight-only"
+      "command": "uv run <skill>/scripts/export/export_project.py <project> \"Web\" /absolute/build/web/index.html --preflight-only"
     },
     {
       "script": "scripts/export/serve_web.py",
       "summary": "Serve a Web export over HTTP with the cross-origin isolation headers threads need; --check self-tests and exits.",
-      "command": "python3 <skill>/scripts/export/serve_web.py /absolute/build/web --check"
+      "command": "uv run <skill>/scripts/export/serve_web.py /absolute/build/web --check"
     }
   ]
 }

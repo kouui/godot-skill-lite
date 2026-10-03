@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Move or rename files and folders in a Godot project the way the editor does.
 
 Inside the editor, dragging a file in the FileSystem dock rewrites every

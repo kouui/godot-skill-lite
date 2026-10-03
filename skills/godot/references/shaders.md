@@ -388,7 +388,7 @@ linter over the project (add `--only godot3_shader` to see just the shader rules
 `--list-rules` to confirm the category is present in your copy of the skill):
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
 ```
 
 | Godot 3 | Godot 4 |
@@ -434,13 +434,13 @@ draw time will not tell you:
 ```bash
 godot --headless --debug --ignore-error-breaks --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd check_project '{"project_path":"res://shaders"}' \
-  2>&1 | python3 /absolute/path/to/godot/scripts/debug/godot_log_parser.py - --pretty
+  2>&1 | uv run /absolute/path/to/godot/scripts/debug/godot_log_parser.py - --pretty
 ```
 
 **2. Is the project still sane with the material attached?**
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
 ```
 
 `check_project` prints `[INFO] Compiling shader: res://…` before each file, and
@@ -473,7 +473,7 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario.json --pretty
 ```
 

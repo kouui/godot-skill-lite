@@ -11,7 +11,7 @@
 #       assert_eq(inventory.count("potion"), 2)
 #
 # Run it:
-#   python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/project --pretty
+#   uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/project --pretty
 extends "res://tests/test_case.gd"
 
 

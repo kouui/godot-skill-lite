@@ -81,7 +81,7 @@ JSON
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario.json --log-file /absolute/path/to/project/run.log --pretty
 ```
 
@@ -194,7 +194,7 @@ With a camera but no light, that scenario exits `1`:
 
 <!-- replay: fails -->
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario3d.json --log-file /absolute/path/to/project/run3d.log --pretty
 ```
 
@@ -238,7 +238,7 @@ godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   add_node '{"scene_path":"scenes/level3d.tscn","parent_node_path":"root","node_type":"DirectionalLight3D",
              "node_name":"Sun","properties":{"rotation_degrees":{"__type":"Vector3","x":-45,"y":-30,"z":0}}}'
-python3 /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario3d.json --log-file /absolute/path/to/project/run3d.log --pretty
 ```
 

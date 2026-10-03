@@ -24,7 +24,7 @@ declares no `class_name`, so nothing has to be in the global class cache).
 ## Install (once per project)
 
 ```bash
-python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --init-mini
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --init-mini
 ```
 
 Writes `res://tests/test_case.gd` and `res://tests/test_example.gd` and prints
@@ -35,7 +35,7 @@ honoured when copying: the example's `extends` line is rewritten to match.
 Then run everything:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
 ```
 
 Detection order is **gut → gdunit4 → mini**, so a project that already has GUT
@@ -71,7 +71,7 @@ This is the loop, verbatim. It was run start to finish on Godot 4.7.
 
    <!-- replay: fails -->
    ```bash
-   python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --select damage
+   uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --select damage
    ```
 
    ```text
@@ -95,7 +95,7 @@ This is the loop, verbatim. It was run start to finish on Godot 4.7.
 
    <!-- replay: fails -->
    ```bash
-   python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --select damage
+   uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --select damage
    ```
 
    ```text
@@ -119,13 +119,13 @@ This is the loop, verbatim. It was run start to finish on Godot 4.7.
    Run again — `"ok": true`, exit 0, three passed:
 
    ```bash
-   python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --select damage --pretty
+   uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --select damage --pretty
    ```
 
 5. **Iterate one test at a time** while working on one behaviour:
 
    ```bash
-   python3 /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --select critical
+   uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --select critical
    ```
 
    `--select` matches a substring of the test name *or* of the script path.

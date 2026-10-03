@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Static lint for a Godot 4.x project. No Godot binary, no import step, stdlib only.
 
 ``check_project`` is the authoritative validator, but it needs a working Godot

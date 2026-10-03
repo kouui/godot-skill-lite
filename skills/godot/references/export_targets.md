@@ -40,7 +40,7 @@ Then export it for real; preflight runs first and fails loudly:
 
 <!-- replay: skip — export-templates (a real export needs the 4.7 web template installed) -->
 ```bash
-python3 /absolute/path/to/godot/scripts/export/export_project.py \
+uv run /absolute/path/to/godot/scripts/export/export_project.py \
   /absolute/path/to/project "Web" /absolute/build/web/index.html
 ```
 
@@ -48,7 +48,7 @@ Then prove it serves with the headers a Godot build needs:
 
 <!-- replay: skip — export-templates (reads the build the previous command writes) -->
 ```bash
-python3 /absolute/path/to/godot/scripts/export/serve_web.py \
+uv run /absolute/path/to/godot/scripts/export/serve_web.py \
   /absolute/build/web --check --pretty
 ```
 
@@ -190,7 +190,7 @@ Export it — cross-exporting from another OS works, only `.dmg` needs a macOS h
 
 <!-- replay: skip — export-templates (builds a real .app bundle) -->
 ```bash
-python3 /absolute/path/to/godot/scripts/export/export_project.py \
+uv run /absolute/path/to/godot/scripts/export/export_project.py \
   /absolute/path/to/project "macOS" /absolute/build/macos/Game.app
 ```
 
@@ -288,7 +288,7 @@ data, not an engine build — which makes it the one preflight that passes on a
 bare CI runner:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/export/export_project.py \
+uv run /absolute/path/to/godot/scripts/export/export_project.py \
   /absolute/path/to/project "Web" /absolute/build/web/base.pck --mode pack --preflight-only
 ```
 
@@ -299,14 +299,14 @@ missing:
 
 <!-- replay: skip — export-templates (a release preflight checks the installed templates) -->
 ```bash
-python3 /absolute/path/to/godot/scripts/export/export_project.py \
+uv run /absolute/path/to/godot/scripts/export/export_project.py \
   /absolute/path/to/project "Web" /absolute/build/web/index.html --preflight-only
 ```
 
 Write the base `.pck` a later patch is measured against:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/export/export_project.py \
+uv run /absolute/path/to/godot/scripts/export/export_project.py \
   /absolute/path/to/project "Web" /absolute/build/web/base.pck --mode pack
 ```
 
@@ -319,7 +319,7 @@ godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   draw_image '{"output_path":"art/patch_marker.png","palette":{"w":"#ffffff"},"rows":["ww","ww"]}'
 godot --headless --path /absolute/path/to/project --import
-python3 /absolute/path/to/godot/scripts/export/export_project.py \
+uv run /absolute/path/to/godot/scripts/export/export_project.py \
   /absolute/path/to/project "Web" /absolute/build/web/update.pck \
   --mode patch --patches /absolute/build/web/base.pck
 ```
@@ -361,12 +361,12 @@ directory — but it still will not create the directory.
 
 <!-- replay: skip — interactive (serves until the reader presses Ctrl+C) -->
 ```bash
-python3 /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web
+uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web
 ```
 
 <!-- replay: skip — export-templates (needs a real web export under /absolute/build/web) -->
 ```bash
-python3 /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web --check --pretty
+uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web --check --pretty
 ```
 
 `python3 -m http.server` is not enough: it sends no COOP/COEP and has no MIME

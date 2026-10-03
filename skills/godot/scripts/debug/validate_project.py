@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Validate a Godot project's resources, plugins, GDExtensions, and C# solutions.
 
 This runs the ``check_project`` dispatcher operation, which loads every script,

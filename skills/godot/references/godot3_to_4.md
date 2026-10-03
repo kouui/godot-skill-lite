@@ -11,16 +11,16 @@ This file is generated from the rule table in
 `scripts/debug/lint_project.py`. Regenerate it after changing a rule:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py --list-rules
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py --list-rules
 ```
 
 Run the linter to find these automatically — it needs no Godot binary and
 finishes in well under a second:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/project --pretty
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/project --only godot3_api
-python3 /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/project --only godot3_shader
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/project --only godot3_api
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/project --only godot3_shader
 ```
 
 Two categories: the **Shaders** group at the bottom of the table is `godot3_shader`

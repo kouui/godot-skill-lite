@@ -33,7 +33,7 @@ existence-and-shape check, not the manual.
 ### Invocation
 
 ```bash
-python3 /absolute/path/to/godot/scripts/docs/api_lookup.py CharacterBody2D.move_and_slide
+uv run /absolute/path/to/godot/scripts/docs/api_lookup.py CharacterBody2D.move_and_slide
 ```
 
 The first call builds the cache (~0.6 s); every call after that is ~0.08 s.
@@ -44,7 +44,7 @@ Positional arguments; as many as you like in one call.
 
 ```bash
 # a class card: chain, own members, one line per ancestor
-python3 /absolute/path/to/godot/scripts/docs/api_lookup.py Timer
+uv run /absolute/path/to/godot/scripts/docs/api_lookup.py Timer
 ```
 
 ```
@@ -73,7 +73,7 @@ inherited (add --inherited to expand, or look one member up directly):
 `Class.member` resolves **through the inheritance chain** and says who declares it:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/docs/api_lookup.py CharacterBody2D.position
+uv run /absolute/path/to/godot/scripts/docs/api_lookup.py CharacterBody2D.position
 ```
 
 ```
@@ -86,7 +86,7 @@ Node2D.position  (property)
 A signal also prints the two lines you are about to write:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/docs/api_lookup.py Area2D.body_entered
+uv run /absolute/path/to/godot/scripts/docs/api_lookup.py Area2D.body_entered
 ```
 
 ```
@@ -116,7 +116,7 @@ instead of summarising it.
 ### Search
 
 ```bash
-python3 /absolute/path/to/godot/scripts/docs/api_lookup.py --search move_and --limit 6
+uv run /absolute/path/to/godot/scripts/docs/api_lookup.py --search move_and --limit 6
 ```
 
 ```
@@ -138,7 +138,7 @@ with `scripts/debug/lint_project.py`):
 
 <!-- replay: fails -->
 ```bash
-python3 /absolute/path/to/godot/scripts/docs/api_lookup.py KinematicBody2D
+uv run /absolute/path/to/godot/scripts/docs/api_lookup.py KinematicBody2D
 ```
 
 ```text
@@ -174,7 +174,7 @@ GDSCRIPT
 ```
 
 ```bash
-python3 /absolute/path/to/godot/scripts/docs/api_lookup.py --project /absolute/path/to/project Pickup Pickup.monitoring
+uv run /absolute/path/to/godot/scripts/docs/api_lookup.py --project /absolute/path/to/project Pickup Pickup.monitoring
 ```
 
 ```text

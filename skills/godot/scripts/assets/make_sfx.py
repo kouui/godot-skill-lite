@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """sfxr-style sound-effect synthesizer: presets or raw parameters -> 16-bit PCM WAV.
 
 An agent building a game has no sound source and cannot hear the result, so this
@@ -21,10 +25,10 @@ whole render succeeded.
 
 Examples::
 
-    python3 make_sfx.py --list-presets
-    python3 make_sfx.py --preset coin --out /abs/project/audio/coin.wav
-    python3 make_sfx.py --preset explosion --seed 7 --variations 3 --out /abs/project/audio/
-    python3 make_sfx.py --params '{"wave":"square","freq_start":220,"freq_end":880,
+    uv run make_sfx.py --list-presets
+    uv run make_sfx.py --preset coin --out /abs/project/audio/coin.wav
+    uv run make_sfx.py --preset explosion --seed 7 --variations 3 --out /abs/project/audio/
+    uv run make_sfx.py --params '{"wave":"square","freq_start":220,"freq_end":880,
                                    "attack":0.01,"decay":0.1,"release":0.1}' \\
                         --name swoop --out /abs/project/audio/
 """

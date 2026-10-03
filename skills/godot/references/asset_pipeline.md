@@ -14,7 +14,7 @@ cleaning it up, or turning frames into animation assets.
 | Frames to pack into a sheet, or a sheet to slice into frames | `process_image` `pack_frames` / `split_sheet` — `pack_frames` returns the `grid` that `build_sprite_frames` takes. |
 
 Everything written by `draw_image`/`process_image` lands as a raw file with **no `.import` sidecar** (the
-payload says `"needs_import": true`). Run `python3 /abs/godot/scripts/import/import_project.py /abs/project`
+payload says `"needs_import": true`). Run `uv run /abs/godot/scripts/import/import_project.py /abs/project`
 before a `.tscn`/`.tres` references it.
 
 ## Default image pipeline (generated art)
@@ -95,7 +95,7 @@ needs `Pillow` and `NumPy` installed; prefer `process_image` unless you already 
 
 <!-- replay: skip — external-tool:pillow (needs Pillow and NumPy installed) -->
 ```bash
-python3 /absolute/path/to/godot/scripts/assets/chroma_key_cutout.py \
+uv run /absolute/path/to/godot/scripts/assets/chroma_key_cutout.py \
   --input /absolute/path/to/project/source/hero_idle_raw \
   --output-dir /absolute/path/to/project/textures/hero_idle_cutout \
   --bg-color 00ff00
@@ -131,13 +131,4 @@ godot --headless --path /absolute/path/to/project \
 - `imagegen` for generation or edit requests.
 - `Pillow` and `NumPy` only for the legacy `scripts/assets/chroma_key_cutout.py`.
 
-Create a virtualenv when the system Python is externally managed:
-
-<!-- replay: skip — external-tool:pip (creates a virtualenv and installs Pillow and NumPy from PyPI) -->
-```bash
-python3 -m venv .godot-skill-venv
-. .godot-skill-venv/bin/activate
-python -m pip install pillow numpy
-```
-
-If your environment already allows direct installs, `python3 -m pip install pillow numpy` also works.
+No manual install is needed: `chroma_key_cutout.py` declares Pillow and NumPy in its inline script metadata (PEP 723), so `uv run` provisions them on first use.

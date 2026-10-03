@@ -242,7 +242,7 @@ excuse for shipping code that does not parse. Run generated GDScript through one
 of them before you call the task done:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
 ```
 
 Or the dispatcher operation behind it, gating on the parsed log as well as the exit code:
@@ -250,13 +250,13 @@ Or the dispatcher operation behind it, gating on the parsed log as well as the e
 ```bash
 godot --headless --debug --ignore-error-breaks --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd check_project '{}' 2>&1 \
-  | python3 /absolute/path/to/godot/scripts/debug/godot_log_parser.py -
+  | uv run /absolute/path/to/godot/scripts/debug/godot_log_parser.py -
 ```
 
 Then confirm the scene actually boots (drop the scene argument to boot the project's main scene):
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project \
   scenes/main.tscn --quit-after 120 --timeout 60
 ```
 

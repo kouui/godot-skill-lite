@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Create a ready-to-work-in Godot 4 project from nothing, in one command.
 
 ``godot --headless`` cannot create a project: the Project Manager is the only
@@ -11,14 +15,14 @@ shared autoloads — through the bundled dispatcher, so Godot itself writes ever
 setting, and then proves the result:
 
     godot --headless --path DEST --import
-    python3 scripts/debug/validate_project.py DEST
+    uv run scripts/debug/validate_project.py DEST
 
 A scaffolded project of every preset validates with zero errors and zero
 warnings and boots clean through ``scripts/debug/run_project.py``.
 
 Example::
 
-    python3 scaffold_project.py ~/games/cave --preset pixel2d --name "Cave Diver" \\
+    uv run scaffold_project.py ~/games/cave --preset pixel2d --name "Cave Diver" \\
         --autoloads game_manager,save_manager,scene_transition --with-tests --pretty
 
 Exit codes: 0 done, 1 a step failed (the JSON names the command and its
@@ -799,10 +803,10 @@ def validate_project(dest: Path, godot_bin: str) -> dict:
 
 def next_commands(dest: Path, preset: str) -> list[str]:
     return [
-        f"python3 {RUN_PROJECT_SCRIPT} {dest} --quit-after 60 --timeout 60 --pretty",
-        f"python3 {SKILL_ROOT / 'scripts/debug/run_scenario.py'} {dest} "
+        f"uv run {RUN_PROJECT_SCRIPT} {dest} --quit-after 60 --timeout 60 --pretty",
+        f"uv run {SKILL_ROOT / 'scripts/debug/run_scenario.py'} {dest} "
         f"{dest / 'scenarios/boot_check.json'} --pretty",
-        f"python3 {VALIDATE_SCRIPT} {dest} --pretty",
+        f"uv run {VALIDATE_SCRIPT} {dest} --pretty",
         (f"godot --headless --path {dest} --script {DISPATCHER} "
          f"add_export_preset '{{\"platform\":\"web\"}}'"),
         f"cat {SKILL_ROOT / 'references/playbooks.md'}   # section 2 adds a player",

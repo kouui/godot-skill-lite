@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Run a Godot 4.7 project headlessly and report the debugger's errors.
 
 This is the "run the game and read the debugger" half of the diagnose-and-fix
@@ -30,7 +34,7 @@ Design notes:
 
 Example::
 
-    python3 run_project.py /abs/path/to/project --quit-after 120 --timeout 60
+    uv run run_project.py /abs/path/to/project --quit-after 120 --timeout 60
 """
 from __future__ import annotations
 

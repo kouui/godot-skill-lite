@@ -19,7 +19,7 @@ CSV and registers each in project settings automatically. Run the importer
 headlessly after adding or editing the CSV:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
+uv run /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
 ```
 
 **gettext (`.po`/`.mo`)** for external translators. Godot infers the locale

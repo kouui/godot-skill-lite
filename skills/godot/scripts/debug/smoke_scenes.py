@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Boot every scene of a Godot 4.7 project, one scene per process, and report.
 
 ``run_project.py`` boots the *main* scene for a bounded number of frames, so a
@@ -23,9 +27,9 @@ of wall time headless. ``--real-time`` opts out (see ``--profile``).
 
 Examples::
 
-    python3 smoke_scenes.py /abs/project --pretty
-    python3 smoke_scenes.py /abs/project --seconds 3 --fuzz --fuzz-seed 7 --jobs 4
-    python3 smoke_scenes.py /abs/project --scenes res://ui/pause_menu.tscn --profile
+    uv run smoke_scenes.py /abs/project --pretty
+    uv run smoke_scenes.py /abs/project --seconds 3 --fuzz --fuzz-seed 7 --jobs 4
+    uv run smoke_scenes.py /abs/project --scenes res://ui/pause_menu.tscn --profile
 """
 from __future__ import annotations
 

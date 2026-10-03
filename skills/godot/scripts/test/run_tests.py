@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Run a Godot project's unit tests headlessly and report structured JSON.
 
 Godot ships no built-in unit-test framework for project code. This wrapper
@@ -234,7 +238,7 @@ def init_mini(project_path: Path, args: argparse.Namespace) -> int:
         "tests_dir": f"res://{tests_dir}",
         "created": written,
         "next": [
-            f"python3 {Path(__file__).resolve()} {project_path} --pretty",
+            f"uv run {Path(__file__).resolve()} {project_path} --pretty",
             f"Write suites as: extends \"res://{tests_dir}/test_case.gd\" with func test_*() methods.",
         ],
     }, args.pretty, 0)
@@ -600,7 +604,7 @@ def main(argv: list[str] | None = None) -> int:
             "errors": [
                 "No test framework detected. Godot has no built-in project test runner. Run this "
                 "command to install the bundled zero-install one (no addon, no download): "
-                f"python3 {Path(__file__).resolve()} {project_path} --init-mini . "
+                f"uv run {Path(__file__).resolve()} {project_path} --init-mini . "
                 "GUT (addons/gut) and GdUnit4 (addons/gdUnit4) are also detected when present."
             ],
         }, args.pretty, 1)
@@ -608,7 +612,7 @@ def main(argv: list[str] | None = None) -> int:
     tests_dir = resolve_tests_dir(project_path, args.tests_dir)
     if not tests_dir:
         fix = (
-            f" Create it with: python3 {Path(__file__).resolve()} {project_path} --init-mini"
+            f" Create it with: uv run {Path(__file__).resolve()} {project_path} --init-mini"
             if framework == "mini" else ""
         )
         return emit({

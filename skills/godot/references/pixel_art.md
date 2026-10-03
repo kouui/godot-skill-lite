@@ -252,7 +252,7 @@ is echoed into the grid.
 Feed the grid straight in, after importing:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
+uv run /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
 
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
@@ -281,7 +281,7 @@ back into numbered files. The two round-trip byte-for-byte.
 ## 4. Tiles → `build_tileset` → `paint_tilemap`
 
 ```bash
-python3 /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
+uv run /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project
 
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \

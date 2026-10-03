@@ -371,7 +371,7 @@ TSCN
 godot --headless --debug --ignore-error-breaks --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   check_project '{}' 2>&1 \
-  | python3 /absolute/path/to/godot/scripts/debug/godot_log_parser.py -
+  | uv run /absolute/path/to/godot/scripts/debug/godot_log_parser.py -
 ```
 
 Expect `"counts": {"total": 0, …}`. This catches every hard failure above —
@@ -427,7 +427,7 @@ node `path` with the leading `./` removed.
 **3. Run the scene when a runtime is available.**
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/run_project.py \
+uv run /absolute/path/to/godot/scripts/debug/run_project.py \
   /absolute/path/to/project res://scenes/menu.tscn --quit-after 120 --timeout 60
 ```
 

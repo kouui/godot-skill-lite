@@ -308,11 +308,11 @@ func execute(params: Dictionary) -> void:
 	var wrapper := _skill_script_path("export_project.py")
 	var mode := "debug" if platform_key == "android" else "release"
 	var next_commands := PackedStringArray([
-		"python3 %s %s \"%s\" %s --mode %s" % [wrapper, absolute_project, preset_name, absolute_output, mode],
-		"python3 %s %s \"%s\" %s --preflight-only" % [wrapper, absolute_project, preset_name, absolute_output]
+		"uv run %s %s \"%s\" %s --mode %s" % [wrapper, absolute_project, preset_name, absolute_output, mode],
+		"uv run %s %s \"%s\" %s --preflight-only" % [wrapper, absolute_project, preset_name, absolute_output]
 	])
 	if platform_key == "web":
-		next_commands.append("python3 %s %s --check" % [_skill_script_path("serve_web.py"), absolute_output.get_base_dir()])
+		next_commands.append("uv run %s %s --check" % [_skill_script_path("serve_web.py"), absolute_output.get_base_dir()])
 
 	print(JSON.stringify({
 		"ok": true,

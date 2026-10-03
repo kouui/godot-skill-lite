@@ -21,9 +21,9 @@ audio driver.
 renders N siblings of it.
 
 ```bash
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --list-presets
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset jump --out /absolute/path/to/project/audio/
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset explosion --seed 7 --variations 3 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --list-presets
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset jump --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset explosion --seed 7 --variations 3 --out /absolute/path/to/project/audio/
 ```
 
 Output is one 16-bit PCM mono WAV per file plus a JSON report. Nothing is written unless the whole render
@@ -106,7 +106,7 @@ carries no contour gate.
 is given. Start from `--list-presets` output and edit. Unknown keys are rejected with the nearest real name.
 
 ```bash
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --name swoop --out /absolute/path/to/project/audio/ \
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --name swoop --out /absolute/path/to/project/audio/ \
   --params '{"wave":"saw","freq_start":200,"freq_end":900,"attack":0.01,"decay":0.05,"sustain":0.1,"release":0.1}'
 ```
 
@@ -142,9 +142,9 @@ Other flags: `--duration S` rescales the whole ADSR (it stretches the shape, it 
 (see *Song JSON* below).
 
 ```bash
-python3 /absolute/path/to/godot/scripts/assets/make_music.py --list-presets
-python3 /absolute/path/to/godot/scripts/assets/make_music.py --preset overworld --out /absolute/path/to/project/audio/
-python3 /absolute/path/to/godot/scripts/assets/make_music.py --preset battle --bars 16 --tempo 168 --stereo --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_music.py --list-presets
+uv run /absolute/path/to/godot/scripts/assets/make_music.py --preset overworld --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_music.py --preset battle --bars 16 --tempo 168 --stereo --out /absolute/path/to/project/audio/
 ```
 
 | Preset | Tempo | Loop | Tracks | Drums |
@@ -182,7 +182,7 @@ cat > /absolute/path/to/project/song.json <<'JSON'
   "drums": {"volume": 0.8, "kick": "x.......x.......", "snare": "....x.......x...", "hat": "x.x.x.x.x.x.x.x."}
 }
 JSON
-python3 /absolute/path/to/godot/scripts/assets/make_music.py --song /absolute/path/to/project/song.json \
+uv run /absolute/path/to/godot/scripts/assets/make_music.py --song /absolute/path/to/project/song.json \
   --out /absolute/path/to/project/audio/theme.wav
 ```
 
@@ -224,7 +224,7 @@ Speed: a 16-bar stereo `overworld` (31 s of audio, 1.37 M frames) renders in abo
 
 <!-- replay: fails -->
 ```bash
-python3 /absolute/path/to/godot/scripts/assets/make_music.py --out /absolute/path/to/project/audio/ \
+uv run /absolute/path/to/godot/scripts/assets/make_music.py --out /absolute/path/to/project/audio/ \
   --song-json '{"tracks":[{"name":"lead","notes":"C4 . H4 ."}]}'
 ```
 
@@ -323,8 +323,8 @@ Run exactly as written, on Godot 4.7. `/absolute/path/to/project` is a project d
 **1. Generate.**
 
 ```bash
-python3 /absolute/path/to/godot/scripts/assets/make_sfx.py --preset jump --seed 7 --out /absolute/path/to/project/audio/
-python3 /absolute/path/to/godot/scripts/assets/make_music.py --preset overworld --bars 4 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset jump --seed 7 --out /absolute/path/to/project/audio/
+uv run /absolute/path/to/godot/scripts/assets/make_music.py --preset overworld --bars 4 --out /absolute/path/to/project/audio/
 ```
 
 **2. Verify before importing anything** — generated files have no `.import` yet, and `inspect_audio` reads
@@ -440,7 +440,7 @@ godot --headless --path /absolute/path/to/project \
 **7. Run it and read the debugger:**
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 60 --raw
+uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 60 --raw
 ```
 
 ```json

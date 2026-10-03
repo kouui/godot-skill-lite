@@ -22,7 +22,7 @@ The bundled tooling for this lives in `scripts/debug/`:
    output. Drop the scene argument to boot the project's `run/main_scene`
    instead, which is what a player's launch does:
    ```bash
-   python3 /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project \
+   uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project \
      scenes/main.tscn --quit-after 120 --timeout 60
    ```
    The runner returns JSON: `ok`, `counts`, and a `diagnostics` array where each
@@ -48,7 +48,7 @@ validate every file first:
 ```bash
 godot --headless --debug --ignore-error-breaks --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd check_project '{}' 2>&1 \
-  | python3 /absolute/path/to/godot/scripts/debug/godot_log_parser.py -
+  | uv run /absolute/path/to/godot/scripts/debug/godot_log_parser.py -
 ```
 
 `check_project` loads every file in the project, so with the debugger attached
@@ -76,7 +76,7 @@ to catch that case, but the general rule stands: a `failed_count` of 0 with
 error-level diagnostic is present:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
 ```
 
 Its output adds `counts` and `diagnostics` (same shape as `run_project.py`) to
@@ -94,7 +94,7 @@ scene of the project, one Godot process per scene, for a bounded amount of *game
 time, and reports per scene what the debugger printed plus a few runtime findings:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project --seconds 2 --pretty
+uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project --seconds 2 --pretty
 ```
 
 Run it after every batch of scene or script edits, and always before calling a
@@ -122,7 +122,7 @@ think to write a scenario for, by replaying the project's own `InputMap` actions
 `Input.parse_input_event` under a seed you can replay:
 
 ```bash
-python3 /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project \
+uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project \
   --seconds 4 --jobs 4 --fuzz --fuzz-mouse --fuzz-seed 7
 ```
 

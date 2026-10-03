@@ -1,4 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = []
+# ///
 """Tiny chiptune tracker: a JSON song -> one seamlessly looping 16-bit PCM WAV.
 
 Background music is the other half of "the agent has no sound source". This is a
@@ -16,10 +20,10 @@ measured, corrected over the final two milliseconds, and reported as
 
 Stdlib only. Examples::
 
-    python3 make_music.py --list-presets
-    python3 make_music.py --preset overworld --out /abs/project/audio/overworld.wav
-    python3 make_music.py --preset battle --bars 16 --tempo 168 --out /abs/project/audio/
-    python3 make_music.py --song song.json --stereo --out /abs/project/audio/theme.wav
+    uv run make_music.py --list-presets
+    uv run make_music.py --preset overworld --out /abs/project/audio/overworld.wav
+    uv run make_music.py --preset battle --bars 16 --tempo 168 --out /abs/project/audio/
+    uv run make_music.py --song song.json --stereo --out /abs/project/audio/theme.wav
 """
 from __future__ import annotations
 

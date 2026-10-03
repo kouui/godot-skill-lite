@@ -1,4 +1,11 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = [
+#     "numpy",
+#     "pillow",
+# ]
+# ///
 from __future__ import annotations
 
 import argparse
@@ -11,10 +18,8 @@ try:
     from PIL import Image
 except ImportError as exc:  # pragma: no cover - exercised through CLI
     print(
-        "Missing dependency: create a virtualenv and install Pillow and NumPy, for example:\n"
-        "python3 -m venv .godot-skill-venv\n"
-        ". .godot-skill-venv/bin/activate\n"
-        "python -m pip install pillow numpy",
+        "Missing dependency: run this script with `uv run`, which installs Pillow and\n"
+        "NumPy from its inline script metadata (PEP 723).",
         file=sys.stderr,
     )
     raise SystemExit(1) from exc
