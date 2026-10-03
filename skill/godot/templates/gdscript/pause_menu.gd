@@ -19,7 +19,7 @@
 #
 # Attach with:
 #   scene_batch '{"scene_path":"scenes/pause_menu.tscn","actions":[
-#     {"type":"configure_node","node_path":"root","properties":{"layer":10,"process_mode":2}},
+#     {"type":"configure_node","node_path":"root","properties":{"layer":10,"process_mode":3}},
 #     {"type":"configure_node","node_path":"root/PauseRoot","unique_name_in_owner":true},
 #     {"type":"attach_script","node_path":"root","script_path":"scripts/pause_menu.gd"}]}'
 extends CanvasLayer

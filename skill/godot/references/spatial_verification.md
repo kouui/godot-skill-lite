@@ -31,7 +31,7 @@ uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/p
   /absolute/path/to/project/scenario.json --log-file /absolute/path/to/project/run.log --pretty
 ```
 
-Read `spatial_reports[]` in the JSON or the `[SCENARIO] spatial_report ...` log lines. Green means `findings=0` with `fail_on` set. The ASCII map is top-down (x right, y down); a collider `d` block overlapping the floor `a` block means `embedded_in_static`. `embedded_in_static` shrinks the query shape by `embed_margin` (1 px in 2D, 1 cm in 3D) so a body resting exactly on the floor is not flagged; TileMapLayer/GridMap collision counts as static.
+Read `spatial_reports[]` in the JSON or the `[SCENARIO] spatial_report ...` log lines. Green means `findings=0` with `fail_on` set. The ASCII map is top-down (x right, y down); the legend assigns letters per run; a mover's block overlapping the floor's block means `embedded_in_static`. `embedded_in_static` shrinks the query shape by `embed_margin` (1 px in 2D, 1 cm in 3D) so a body resting exactly on the floor is not flagged; TileMapLayer/GridMap collision counts as static.
 
 ## 3D gate: camera, light, mesh in view
 

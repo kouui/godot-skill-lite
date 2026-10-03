@@ -76,7 +76,7 @@ godot --headless --debug --ignore-error-breaks --path /absolute/path/to/project 
   | uv run /absolute/path/to/godot/scripts/debug/godot_log_parser.py -
 ```
 
-Expect `"counts": {"total": 0, ...}`. Invalid-scene errors land in `failed[]` (the error names the node, read the scene from the entry). A vanished-parent **warning** leaves `failed_count` 0 and `validate_project.py` ok unless `--warnings-as-errors`: do not skim past it. **A fully flat tree still passes.**
+Expect `"counts": {"total": 0, ...}`. Through the parser, scene failures are `diagnostics[]` entries with `severity: error` (`counts.errors` > 0); the raw dispatcher output (no parser) has `failed[]` with `path` and `reason`. A vanished-parent **warning** leaves `failed_count` 0 and `validate_project.py` ok unless `--warnings-as-errors`: do not skim past it. **A fully flat tree still passes.**
 
 **2. `inspect_scene`** (the only check that reveals a wrong tree):
 

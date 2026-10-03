@@ -502,7 +502,15 @@ def main(argv: list[str] | None = None) -> int:
         emit(command, project_path, args.preset_name, output_path, args.mode, True, preflight_result)
         report_blockers(preflight_result)
         return 1
-    completed = subprocess.run(command, check=False)
+    if sys.platform == "win32":
+        # The GUI godot.exe has no console of its own, so inherited stdio is
+        # lost; capture through pipes and relay instead.
+        completed = subprocess.run(command, capture_output=True, text=True,
+                                   encoding="utf-8", errors="replace", check=False)
+        sys.stdout.write(completed.stdout or "")
+        sys.stderr.write(completed.stderr or "")
+    else:
+        completed = subprocess.run(command, check=False)
     # Godot's exporter has exited 0 while producing nothing (missing template
     # variant, a preset that filtered every file out, an unwritable target).
     # Reporting that as a successful build is the failure mode this guards.
