@@ -284,7 +284,7 @@ def installed_template_path(godot_bin: str) -> Path | None:
     executable = shutil.which(godot_bin)
     if not executable:
         return None
-    completed = subprocess.run([godot_bin, "--version"], capture_output=True, text=True, check=False)
+    completed = subprocess.run([godot_bin, "--version"], capture_output=True, text=True, encoding="utf-8", errors="replace", check=False)
     if completed.returncode != 0:
         return None
     parts = completed.stdout.strip().split(".")

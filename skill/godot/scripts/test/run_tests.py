@@ -445,7 +445,7 @@ def run_mini(args: argparse.Namespace, project_path: Path, tests_dir: str, comma
             # One stream: the markers (stdout) and the engine's SCRIPT ERROR
             # lines (stderr) must stay in order for attribution to work.
             stderr=subprocess.STDOUT,
-            text=True,
+            text=True, encoding="utf-8", errors="replace",
             check=False,
             timeout=args.timeout,
             stdin=subprocess.DEVNULL,
@@ -658,7 +658,7 @@ def main(argv: list[str] | None = None) -> int:
         return run_mini(args, project_path, tests_dir, command, payload)
 
     try:
-        completed = subprocess.run(command, capture_output=True, text=True, check=False, timeout=args.timeout)
+        completed = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", check=False, timeout=args.timeout)
     except subprocess.TimeoutExpired:
         payload.update({"ok": False, "timed_out": True, "errors": [f"Test run timed out after {args.timeout}s"]})
         return emit(payload, args.pretty, 1)

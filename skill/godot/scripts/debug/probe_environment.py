@@ -28,7 +28,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
 
 def run(command: list[str]) -> subprocess.CompletedProcess[str]:
     try:
-        return subprocess.run(command, capture_output=True, text=True, check=False, timeout=30)
+        return subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", check=False, timeout=30)
     except subprocess.TimeoutExpired:
         return subprocess.CompletedProcess(command, -1, "", "timed out after 30s")
 

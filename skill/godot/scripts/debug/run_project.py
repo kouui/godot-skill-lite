@@ -160,7 +160,7 @@ def run(command: list[str], timeout: float) -> tuple[str, int, bool, float]:
             stdin=subprocess.DEVNULL,
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
-            text=True,
+            text=True, encoding="utf-8", errors="replace",
             start_new_session=True,
         )
     except FileNotFoundError as exc:
@@ -189,6 +189,16 @@ def run(command: list[str], timeout: float) -> tuple[str, int, bool, float]:
 
 
 def _kill_group(proc: subprocess.Popen) -> None:
+    if not hasattr(os, "killpg"):
+        # Windows has no process groups: kill the whole tree (godot_console
+        # spawns the real godot.exe as a child) and fall back to the process.
+        subprocess.run(["taskkill", "/F", "/T", "/PID", str(proc.pid)],
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
+        try:
+            proc.kill()
+        except OSError:
+            pass
+        return
     try:
         os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
     except (ProcessLookupError, PermissionError):

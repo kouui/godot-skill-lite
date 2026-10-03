@@ -15,7 +15,7 @@
 // PADDING — the one thing that goes wrong: a sprite's quad is exactly its texture rect, so an
 //   outer outline has nowhere to draw where the art touches the texture edge. Give the art at
 //   least `outline_width` transparent pixels of margin:
-//     dispatch process_image '{"input_path":"art/hero.png","output_path":"art/hero.png","operations":[{"type":"pad","padding":2}]}'
+//     dispatch process_image '{"input_path":"art/hero.png","output_path":"art/hero.png","operations":[{"type":"trim","padding":2}]}'
 //   For a sprite sheet / AtlasTexture / region_enabled Sprite2D the neighbour taps read whatever
 //   sits next to the frame in the atlas, so pad every frame (draw_image `separation`) or give the
 //   outlined sprite its own texture.

@@ -852,7 +852,7 @@ def run_missing_resource_lint(project: Path) -> dict:
     try:
         result = subprocess.run(
             [sys.executable, str(LINT_SCRIPT), str(project), "--only", "missing_resource"],
-            capture_output=True, text=True, check=False, timeout=180)
+            capture_output=True, text=True, encoding="utf-8", errors="replace", check=False, timeout=180)
     except (OSError, subprocess.SubprocessError) as error:
         return {"ran": False, "reason": str(error), "diagnostics": []}
     try:
@@ -918,7 +918,7 @@ def run_import(project: Path, timeout: int = 300) -> dict:
     try:
         result = subprocess.run(
             [binary, "--headless", "--path", str(project), "--import"],
-            capture_output=True, text=True, check=False, timeout=timeout)
+            capture_output=True, text=True, encoding="utf-8", errors="replace", check=False, timeout=timeout)
     except subprocess.TimeoutExpired:
         return {"ran": False, "returncode": None,
                 "reason": f"--import timed out after {timeout}s", "note": note}

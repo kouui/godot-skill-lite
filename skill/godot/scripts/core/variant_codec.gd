@@ -355,6 +355,10 @@ func _coerce_color_string(info: Dictionary, value: Variant, context: String) -> 
     # handed, so "shader_parameter/tint": "#ff0000" used to be saved as `null`
     # and reported as success. Convert a colour string when the declared type is
     # Color; refuse one that is not a colour instead of dropping it.
+    # JSON numbers arrive as float; an int shader uniform handed a float is
+    # saved as null, so narrow whole numbers when the declared type is int.
+    if not info.is_empty() and int(info[&"type"]) == TYPE_INT and value is float and is_equal_approx(value, roundf(value)):
+        return {&"ok": true, &"value": int(value)}
     if info.is_empty() or int(info[&"type"]) != TYPE_COLOR or not (value is String or value is StringName):
         return {&"ok": true, &"value": value}
     var text := str(value)
@@ -712,6 +716,10 @@ func _decode_gradient(raw: Variant, context: String) -> Gradient:
                 return null
             offsets.append(float(point.get("offset", 0.0)))
             var color = decode(point.get("color", {"__type": "Color", "r": 1, "g": 1, "b": 1}), "%s.points[%d].color" % [context, index])
+            if color is String or color is StringName:
+                color = Color.from_string(str(color), Color(-1.0, -1.0, -1.0, -1.0))
+                if color == Color(-1.0, -1.0, -1.0, -1.0):
+                    color = null
             if not (color is Color):
                 utils_script.log_error("%s.points[%d].color must decode to a Color" % [context, index])
                 return null

@@ -463,7 +463,7 @@ def tail(text: str, lines: int = 12) -> str:
 
 
 def run(step: str, command: list[str], timeout: float = 300.0) -> subprocess.CompletedProcess[str]:
-    result = subprocess.run(command, capture_output=True, text=True, check=False, timeout=timeout)
+    result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", check=False, timeout=timeout)
     if result.returncode != 0:
         raise StepFailure(step, command, result.returncode, result.stdout, result.stderr)
     return result
@@ -480,7 +480,7 @@ def dispatch(godot_bin: str, project: Path, operation: str, params: dict) -> dic
 
 def godot_version(godot_bin: str) -> str:
     try:
-        out = subprocess.run([godot_bin, "--version"], capture_output=True, text=True,
+        out = subprocess.run([godot_bin, "--version"], capture_output=True, text=True, encoding="utf-8", errors="replace",
                              check=False, timeout=30).stdout.strip()
     except (OSError, subprocess.SubprocessError):
         return "4.7"
@@ -793,7 +793,7 @@ def validate_project(dest: Path, godot_bin: str) -> dict:
     # the agent to ignore them.
     result = subprocess.run([sys.executable, str(VALIDATE_SCRIPT), str(dest),
                              "--godot-bin", godot_bin, "--warnings-as-errors"],
-                            capture_output=True, text=True, check=False, timeout=600)
+                            capture_output=True, text=True, encoding="utf-8", errors="replace", check=False, timeout=600)
     payload = last_json(result.stdout)
     if payload is None:
         return {"ok": False, "counts": {}, "error": tail(result.stderr) or tail(result.stdout)}

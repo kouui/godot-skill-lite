@@ -163,7 +163,7 @@ def run_bounded(command: list[str], timeout: float) -> subprocess.CompletedProce
         return subprocess.run(
             command,
             capture_output=True,
-            text=True,
+            text=True, encoding="utf-8", errors="replace",
             check=False,
             timeout=timeout,
             stdin=subprocess.DEVNULL,

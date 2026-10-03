@@ -155,7 +155,7 @@ def resolve_binary(explicit: Optional[str]) -> Optional[str]:
 
 def engine_version(binary: str) -> str:
     try:
-        result = subprocess.run([binary, "--version"], capture_output=True, text=True,
+        result = subprocess.run([binary, "--version"], capture_output=True, text=True, encoding="utf-8", errors="replace",
                                 check=False, timeout=60)
     except OSError as error:
         raise LookupError_("could not run %s --version: %s" % (binary, error))
@@ -242,7 +242,7 @@ def run_doctool(binary: str, target: Path) -> None:
     target.mkdir(parents=True, exist_ok=True)
     command = [binary, "--headless", "--doctool", str(target.resolve()), "--quit"]
     try:
-        result = subprocess.run(command, capture_output=True, text=True, check=False,
+        result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", check=False,
                                 timeout=300, cwd=str(target.resolve()))
     except OSError as error:
         raise LookupError_("could not run %s: %s" % (" ".join(command), error))
@@ -267,7 +267,7 @@ def project_docs(binary: str, project: Path) -> Tuple[Dict[str, dict], Path, Lis
     command = [binary, "--headless", "--path", str(project.resolve()),
                "--doctool", str(target), "--gdscript-docs", "res://", "--quit"]
     try:
-        result = subprocess.run(command, capture_output=True, text=True, check=False, timeout=300)
+        result = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", errors="replace", check=False, timeout=300)
     except OSError as error:
         raise LookupError_("could not run %s: %s" % (" ".join(command), error))
     broken = [line.strip() for line in (result.stderr or "").splitlines()

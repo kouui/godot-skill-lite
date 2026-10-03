@@ -63,7 +63,7 @@
       "More than one edit to the same scene belongs in scene_batch — it loads and saves the scene once and rolls back if any action fails.",
       "The keys inside properties/indexed_properties/metadata are node property names, not parameters, and are never param-checked."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "attach_script": {
     "summary": "Assign an existing .gd script to a node and write its exported properties.",
@@ -88,7 +88,7 @@
       "script_properties only reach @export (or otherwise settable) properties declared by that script.",
       "After adding a script with class_name, run `godot --headless --path <project> --import` before validating, or every other script referencing it fails to parse."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "audit_imports": {
     "summary": "Report the import state of every asset: ok, missing, invalid, stale, or orphaned.",
@@ -577,7 +577,7 @@
       "The keys inside properties/indexed_properties/metadata are project data and are never param-checked; a typo there fails at assignment time instead.",
       "Use configure_control for Control layout: anchors, presets, size flags, and theme overrides."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "connect_signal": {
     "summary": "Connect a node's signal to a method on a target node, persisted in the scene file.",
@@ -609,7 +609,7 @@
       "inspect_scene lists the connections a scene already holds.",
       "disconnect_signal removes it again by the same four fields."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "create_scene": {
     "summary": "Create and save a new scene with a typed root node.",
@@ -638,7 +638,7 @@
       "root_node_type is any instantiable class name (Node2D, Control, Node3D, CharacterBody2D, ...).",
       "The root is addressed as \"root\" by every later operation regardless of root_node_name."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "disconnect_signal": {
     "summary": "Remove a persistent scene connection by source node, signal, target node, and method.",
@@ -660,7 +660,7 @@
       "All four fields must match the stored connection exactly; inspect_scene lists the connections a scene actually holds.",
       "Only connections stored in the scene are removed — connections made at runtime with .connect() live in code."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "draw_image": {
     "summary": "Draw a PNG from ASCII rows or shape primitives: sprites, spritesheets, seamless tiles, 9-patch panels — art without an image generator.",
@@ -842,7 +842,7 @@
       "scene_path and output_path are both required; the op errors instead of exiting 0 when either is missing.",
       "Feed the result to paint_gridmap as mesh_library; the item ids are the MeshLibrary indices."
     ],
-    "see": "SKILL.md#use-the-specialized-operations"
+    "see": "references/automation_api.md"
   },
   "get_uid": {
     "summary": "Report a file's .uid sidecar path, whether it exists, and any engine-reported UID.",
@@ -856,7 +856,7 @@
       "Read-only diagnostic for projects that cross-reference resources by UID.",
       "Headless-saved .tres/.tscn files carry no uid= header; run resave_resources to try to regenerate the sidecars, then re-check."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "help": {
     "summary": "List every dispatcher operation, or print one operation's parameters, example, and runnable command.",
@@ -1037,7 +1037,7 @@
       "properties are stored as scene-instance overrides, so later edits to the instanced scene still flow through.",
       "Reuse this instead of rebuilding the same subtree in every level scene."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "load_sprite": {
     "summary": "Load a texture resource into a Sprite2D, Sprite3D, or TextureRect (compatibility op).",
@@ -1055,7 +1055,7 @@
       "Kept for compatibility — configure_node with {\"properties\": {\"texture\": {\"__resource\": \"res://art/player.png\"}}} is the general form and works on any node with a texture property.",
       "The texture must be imported already; a fresh PNG needs `godot --headless --path <project> --import` first."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "paint_gridmap": {
     "summary": "Assign a MeshLibrary and paint, fill, or erase cells on a GridMap node.",
@@ -1451,7 +1451,7 @@
       "Connections stored in the scene that referenced the removed node go away with it; connections from other scenes do not.",
       "The scene root cannot be removed."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "reorder_node": {
     "summary": "Move a node to a different sibling index under the same parent.",
@@ -1469,7 +1469,7 @@
       "Sibling order is draw order for Control and CanvasItem nodes — later siblings draw on top.",
       "Inside a BoxContainer/GridContainer it is also the layout order."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "reparent_node": {
     "summary": "Move a node (with its subtree) under a different parent.",
@@ -1491,7 +1491,7 @@
       "Ownership is re-applied to the scene root so the moved subtree still serializes.",
       "node_path is the node's path before the move; later operations must use the new path."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "resave_resources": {
     "summary": "Resave scenes and script-like resources under a path, then report how many .uid sidecars were created versus still missing.",
@@ -1505,7 +1505,7 @@
       "Headless-saved .tres/.tscn files carry no uid= header; run this after bulk creation when the project cross-references by UID.",
       "Read the created/still-missing counts instead of assuming every resave produced a UID."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "resource_batch": {
     "summary": "Transactional Resource authoring: load/create/duplicate, set properties and metadata, call builder methods, bake navmeshes, save once.",
@@ -1631,7 +1631,7 @@
       "Use it to duplicate a scene, or to normalize a hand-edited .tscn through the engine's own serializer.",
       "It re-serializes the whole file, so hand-written formatting and comments are not preserved."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "scene_batch": {
     "summary": "Run a sequence of scene actions against one scene in memory and save only if every action succeeded.",
@@ -1708,7 +1708,7 @@
       "Every action entry is param-checked the same way the top-level object is, so a misspelled key inside actions[2] is reported as actions[2].<key>.",
       "create_if_missing + root_node_type make it an idempotent create-or-open."
     ],
-    "see": "SKILL.md#scene-editing-surface"
+    "see": "references/automation_api.md"
   },
   "set_import_options": {
     "summary": "Patch the [params] section of an asset's .import sidecar and invalidate the imported artifact.",

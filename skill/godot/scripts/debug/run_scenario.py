@@ -118,7 +118,7 @@ def main(argv: list[str] | None = None) -> int:
         completed = subprocess.run(
             command,
             capture_output=True,
-            text=True,
+            text=True, encoding="utf-8", errors="replace",
             check=False,
             timeout=args.timeout,
             stdin=subprocess.DEVNULL,
