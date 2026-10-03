@@ -289,7 +289,7 @@ uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/p
 uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project --all --fuzz --pretty
 ```
 
-1. **Lint** (no Godot needed, run after every edit): `"ok": true`, `counts.errors == 0`. Catches Godot 3 names, un-inferable `:=`, dead `$Path`/`%Name`/signal targets, input actions missing from the map, `res://` literals to missing files.
+1. **Lint** (no Godot needed, run after every edit): `"ok": true`, `counts.errors == 0`. Catches outdated API names, un-inferable `:=`, dead `$Path`/`%Name`/signal targets, input actions missing from the map, `res://` literals to missing files.
 2. **Validate**: `"ok": true`, `counts.errors == 0`, `counts.warnings == 0`, `static.failed_count == 0`. `--warnings-as-errors` makes GDScript and node-configuration warnings (`node_config:body_without_shape`) fail. Read `physics_layers.findings` and fix any `mask_targets_empty_layer`. Keep the debugger attached (default); `--no-debugger` hides every warning.
 3. **Tests**: `"ok": true`, `counts.failed == 0`. "No test framework found" is the finding: `run_tests.py ... --init-mini`, write the first suite (`references/testing.md`). Add `--strict` so a test asserting nothing fails.
 4. **One scenario that looks at the running game.** lint and validate never start it. Include the three text read-backs:

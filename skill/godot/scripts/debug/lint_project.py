@@ -125,8 +125,8 @@ CATEGORIES = (
 
 
 # ---------------------------------------------------------------------------
-# The Godot 3 -> Godot 4.7 rule table. Single source of truth, shared with
-# references/godot3_to_4.md (regenerate that doc with --list-rules).
+# The outdated-API -> Godot 4.7 rule table. Single source of truth; --list-rules
+# prints it.
 # ---------------------------------------------------------------------------
 # Every rule is {id, token, replacement, group, severity, scope, pattern,
 # scene_pattern, message, fix}:
@@ -3335,8 +3335,7 @@ def lint_project(project_path: str | Path, only: Optional[Iterable[str]] = None,
 
 
 def rules_markdown() -> str:
-    """The Godot 3 -> 4.7 rename table as markdown, grouped. Source for
-    references/godot3_to_4.md."""
+    """The outdated-API -> 4.7 rename table as markdown, grouped (--list-rules)."""
     lines: list[str] = []
     for group in GROUP_ORDER:
         entries = [rule for rule in GODOT3_RULES if rule["group"] == group]

@@ -11,7 +11,7 @@ Never `:=` when the right side is:
 - `$Node.prop` / `$Node.method()`, `dict[key]`, `dict.get()`, `untyped_array[i]`, a call to a function with no return type: no static type, parse error. Write `var hp: int = int(data.get("hp", 0))`.
 - `JSON.parse_string()` or any Variant API: `inference_on_variant` ships as an error. Write `var raw: Variant = JSON.parse_string(s)` then `var d: Dictionary = raw if raw is Dictionary else {}`.
 - `null` (`var x: Node = null`), or a `class_name` not yet imported.
-- Empty collections: `var e := []` is a plain `Array`. Write `var enemies: Array[Enemy] = []`; `Dictionary[String, int]` needs 4.4+. `Array[Enemy]()` is invalid syntax.
+- Empty collections: `var e := []` is a plain `Array`. Write `var enemies: Array[Enemy] = []`; `Dictionary[String, int]` is also valid. `Array[Enemy]()` is invalid syntax.
 
 Downcast with `as` plus a null check (`var enemy := body as Enemy`, `if enemy == null: return`); `var x: Enemy = node` is checked at runtime and errors instead of yielding null. `@export` always needs a type or initializer: `@export var speed: float = 200.0`.
 
@@ -67,7 +67,7 @@ Which tool: files load and node trees valid = `validate_project.py`; game boots 
 | `null instance`, `on a null value` | `null_reference` | Node accessed before it is in the tree, or wrong/renamed path. `@onready`, access in `_ready`, `get_node_or_null()` + guard, fix path. |
 | `Invalid get index` / `Invalid set index` | `invalid_index` | Missing key/index or wrong base type; check names and non-null. |
 | `Invalid access to property or key` | `invalid_member` | Member absent on that object type (base may be null). |
-| `nonexistent function`, `not found in base` | `missing_method` | Typo, wrong node class, or Godot 3 API: fix name, cast, use 4.x API. |
+| `nonexistent function`, `not found in base` | `missing_method` | Typo, wrong node class, or outdated API: fix the name or cast; check with `api_lookup.py`. |
 | `nonexistent signal`, `Signal ... is not declared` | `signal` | Declare `signal name(...)` or fix target; prefer the `connect_signal` op. |
 | `not declared in the current scope` | `undeclared_identifier` | Typo or missing `preload`/`class_name`; for a new `class_name` run `--import` (above) or `const X = preload("res://x.gd")`. |
 | `Trying to assign value of type`, `Cannot convert`, `Cannot assign a value of type ... to variable` | `type_mismatch` / `parse_error` | Fix the declared type, convert, or `as` + null guard (often a `Node` from `$`/`instantiate()` into an unrelated type). |

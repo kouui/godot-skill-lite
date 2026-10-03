@@ -1,6 +1,6 @@
 # godot-skill-lite
 
-A Claude Code plugin that packages the **Godot** Agent Skill: Godot 4.x game development (verified on 4.7). It scaffolds, inspects and edits projects, scenes, UI and resources headlessly; authors tilesets, levels, shaders, audio and export presets; lints GDScript, scenes and shaders; and unit-tests, smoke-runs, debugs and exports projects. Every result can be checked as text, so no vision is needed.
+A Claude Code plugin that packages the **Godot** Agent Skill: Godot 4.7 game development. It scaffolds, inspects and edits projects, scenes, UI and resources headlessly; authors tilesets, levels, shaders, audio and export presets; lints GDScript, scenes and shaders; and unit-tests, smoke-runs, debugs and exports projects. Every result can be checked as text, so no vision is needed.
 
 ## Install
 
@@ -40,7 +40,7 @@ The Godot skill lives in `skill/` rather than `skills/`, so Claude Code does not
 ## Requirements
 
 - [uv](https://docs.astral.sh/uv/): every Python tool is a PEP 723 single-file script run with `uv run`
-- Godot 4.x on `PATH`, or set `GODOT_BIN` / pass `--godot-bin`, for anything that runs the engine
+- Godot 4.7 on `PATH`, or set `GODOT_BIN` / pass `--godot-bin`, for anything that runs the engine
 
 ## Credits
 

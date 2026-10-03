@@ -2,13 +2,13 @@
   "name": "godot-skill-lite",
   "owner": { "name": "kouui" },
   "metadata": {
-    "description": "Claude Code plugin marketplace for the Godot 4.x game-development skill."
+    "description": "Claude Code plugin marketplace for the Godot 4.7 game-development skill."
   },
   "plugins": [
     {
       "name": "godot",
       "source": "./",
-      "description": "Godot 4.x game development (verified on 4.7): scaffold, inspect, edit, lint, test, debug and export Godot projects headlessly."
+      "description": "Godot 4.7 game development: scaffold, inspect, edit, lint, test, debug and export Godot projects headlessly."
     }
   ]
 }

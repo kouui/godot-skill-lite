@@ -28,7 +28,7 @@ Search: `api_lookup.py --search move_and --limit 6` (ranked exact > whole word >
 
 Wrong names fail loudly (exit 1, results that did resolve still print on stdout):
 
-- A Godot 3 name gets the 4.x answer: `KinematicBody2D` -> "use `CharacterBody2D`".
+- An outdated name gets the 4.7 answer: `KinematicBody2D` -> "use `CharacterBody2D`".
 - A misspelling gets the nearest real names (`CharcterBody2D`, `Vector2.lenght` -> `length`).
 
 Project classes: `--project /absolute/path/to/project Pickup Pickup.monitoring` indexes every compiling script in the project (regenerated each call) with its exported properties, signals, methods and `##` doc comments, inheriting the engine chain. A script without `class_name` answers to `res://scripts/player.gd`, `scripts/player.gd` or `player.gd` (member: `res://scripts/player.gd.jump`). `--project DIR --search .gd` lists every script and what it extends. Scripts that do not compile are skipped with a stderr note; a freshly added `class_name` may need `godot --headless --path <project> --import` once to resolve.

@@ -1,6 +1,6 @@
 ---
 name: godot
-description: Build, fix and verify Godot 4.x games headlessly with bundled tools - scaffold projects, edit scenes through a dispatcher, look up the installed engine's exact API, lint GDScript/scenes/shaders without the engine, generate placeholder art and sound, unit-test, run scripted gameplay scenarios, smoke-run every scene, and export desktop/Web builds, all verified as text with no vision needed.
+description: Build, fix and verify Godot 4.7 games headlessly with bundled tools - scaffold projects, edit scenes through a dispatcher, look up the installed engine's exact API, lint GDScript/scenes/shaders without the engine, generate placeholder art and sound, unit-test, run scripted gameplay scenarios, smoke-run every scene, and export desktop/Web builds, all verified as text with no vision needed.
 ---
 
 # Godot
@@ -26,9 +26,9 @@ This file is the index. Read it fully, then open only the reference the task tab
 
 ## Rules that prevent most failures
 
-1. **Look before you type.** Run `uv run .../scripts/docs/api_lookup.py Class.member ...` for any engine class, method, signal or constant you are not certain of. A wrong or Godot 3 name exits 1 with the real one.
+1. **Look before you type.** Run `uv run .../scripts/docs/api_lookup.py Class.member ...` for any engine class, method, signal or constant you are not certain of. A wrong or outdated name exits 1 with the real 4.7 one.
 2. **Lint after every edit.** `uv run .../scripts/debug/lint_project.py <project> --pretty` needs no engine and finishes in under a second. It catches:
-   - Godot 3 names
+   - outdated (pre-4.7) API, class and shader names
    - `:=` on values with no static type
    - dead `$Path`/`%Name`/signal targets
    - unknown input actions, groups and `res://` paths
@@ -68,7 +68,6 @@ This file is the index. Read it fully, then open only the reference the task tab
 | Is it on screen, in the floor, lit, in front of the camera | `references/spatial_verification.md` | `spatial_report` findings 0 |
 | Unit tests for game logic | `references/testing.md` | `run_tests.py` `"ok": true`, `counts.tests > 0` |
 | Hand-writing `.tscn`/`.tres` | `references/tscn_format.md` | `inspect_scene` nesting matches intent |
-| Porting Godot 3 code | `references/godot3_to_4.md` | `lint_project.py` 0 errors |
 | Desktop or Web build | `references/export_targets.md` | artifact exists and boots |
 
 ## Tools at a glance

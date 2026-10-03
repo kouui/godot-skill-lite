@@ -33,7 +33,7 @@ uv run /absolute/path/to/godot/scripts/export/export_project.py \
 
 `add_export_preset` params: `platform` (required), `name`, `export_path` (default `../build/<platform>/<artifact>`, beside the project, never inside), `options` (free-form, merged over verified defaults, never key-checked), `overwrite` (default false: an existing name is an error), `export_filter`/`include_filter`/`exclude_filter`, `custom_features`. Run `help '{"op":"add_export_preset"}'` for the rest. The file is edited as text, so presets authored in the editor (signing, profiles) keep their exact bytes.
 
-`platform=` in the file is `Web`, `Windows Desktop`, `Linux`, `macOS`. `Linux/X11` is the Godot 3 name and exports nothing in 4.x.
+`platform=` in the file is `Web`, `Windows Desktop`, `Linux`, `macOS`. `Linux/X11` is an outdated name and exports nothing.
 
 ## Per-platform facts
 

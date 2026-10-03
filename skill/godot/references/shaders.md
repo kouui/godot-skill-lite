@@ -2,7 +2,7 @@
 
 Read this before writing or attaching any `.gdshader`.
 
-Do not write a shader from memory: models produce Godot 3 syntax (`hint_color`, `SCREEN_TEXTURE`, `WORLD_MATRIX`) or plain GLSL, and **a shader that fails to compile is silently replaced by the default material at draw time**. The sprite keeps rendering, the effect is missing, the log says nothing. Copy a file from `templates/shaders/` and edit it; its header documents uniforms, ranges, renderer support, attach commands and how to drive it. Read the header first. Godot 3 renames are in `references/godot3_to_4.md`; `lint_project.py` flags them.
+Do not write a shader from memory: models produce outdated syntax (`hint_color`, `SCREEN_TEXTURE`, `WORLD_MATRIX`) or plain GLSL, and **a shader that fails to compile is silently replaced by the default material at draw time**. The sprite keeps rendering, the effect is missing, the log says nothing. Copy a file from `templates/shaders/` and edit it; its header documents uniforms, ranges, renderer support, attach commands and how to drive it. Read the header first. `lint_project.py` flags outdated shader names.
 
 ## Templates (in `/absolute/path/to/godot/templates/shaders/`)
 
@@ -52,7 +52,7 @@ godot --headless --path /absolute/path/to/project \
 
 ### Full-screen post-process (crt, vignette, shockwave, pixelate)
 
-`hint_screen_texture` sees what is already drawn, so the `ColorRect` goes on a `CanvasLayer` above the content (a higher layer, e.g. the HUD, stays sharp). Two things make it invisible if forgotten: `configure_control` `"anchors_preset":15` (else the rect is 0x0; `ui_report` flags `zero_size`) and `"mouse_filter":2` in the node properties (else it eats every click). Declaring `uniform sampler2D screen_texture : hint_screen_texture;` is enough; there is no `BackBufferCopy` node in 4.x.
+`hint_screen_texture` sees what is already drawn, so the `ColorRect` goes on a `CanvasLayer` above the content (a higher layer, e.g. the HUD, stays sharp). Two things make it invisible if forgotten: `configure_control` `"anchors_preset":15` (else the rect is 0x0; `ui_report` flags `zero_size`) and `"mouse_filter":2` in the node properties (else it eats every click). Declaring `uniform sampler2D screen_texture : hint_screen_texture;` is enough; no `BackBufferCopy` node is needed.
 
 ```bash
 godot --headless --path /absolute/path/to/project \

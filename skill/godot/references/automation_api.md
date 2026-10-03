@@ -217,8 +217,8 @@ Static, no Godot binary, well under a second. Output: `ok`, `counts`, `diagnosti
 
 | category | catches |
 | --- | --- |
-| `godot3_api` | Godot 3 API and class names in `.gd` and `.tscn`/`.tres` (table: `references/godot3_to_4.md`) |
-| `godot3_shader` | Godot 3 shader names (`hint_color`, `SCREEN_TEXTURE`, ...). A shader that fails to compile renders as the default material with no runtime error, so this static pass matters |
+| `godot3_api` | outdated API and class names in `.gd` and `.tscn`/`.tres`, with the 4.7 replacement (`--list-rules` prints them) |
+| `godot3_shader` | outdated shader names (`hint_color`, `SCREEN_TEXTURE`, ...). A shader that fails to compile renders as the default material with no runtime error, so this static pass matters |
 | `inference` | `:=` from an untyped expression: error for `.get()`, untyped `Array`/`Dictionary` reads, `JSON.parse_string()`, `null`, `.call()`, same-file functions without `-> Type`; warning for `$Node`, `%Name`, `get_node()`, `.instantiate()` (typed bare `Node`) |
 | `node_ref`, `unique_name` | `$Path`, `%Name`, `get_node("...")` not present in the `.tscn` that attaches the script |
 | `signal_target` | `[connection]` nodes that do not exist or handlers the target script lacks (Godot drops a wrong path silently) |
