@@ -32,7 +32,7 @@
 //   dispatch add_node '{"scene_path":"scenes/main.tscn","parent_node_path":"root/PostProcess","node_type":"ColorRect","node_name":"CRT","properties":{"mouse_filter":2,"material":{"__resource_type":"ShaderMaterial","properties":{"shader":{"__resource":"res://shaders/crt.gdshader"},"shader_parameter/curvature":0.12,"shader_parameter/scanline_strength":0.25,"shader_parameter/scanline_count":240.0,"shader_parameter/aberration":0.6,"shader_parameter/grille_strength":0.0,"shader_parameter/vignette_strength":0.25,"shader_parameter/brightness":1.1,"shader_parameter/border_color":{"__type":"Color","r":0,"g":0,"b":0,"a":1}}}}}'
 //   dispatch configure_control '{"scene_path":"scenes/main.tscn","node_path":"root/PostProcess/CRT","anchors_preset":15}'
 //   Verify it with a screenshot rather than by eye:
-//   run_scenario.py $PROJECT scenario.json   # steps: [{"type":"screenshot","path":"/tmp/crt.png","expect":{"not_blank":true}}]
+//   run_scenario.py $PROJECT scenario.json   # steps: [{"type":"screenshot","path":"/absolute/path/to/project/crt.png","expect":{"not_blank":true}}]
 //
 // Drive it:
 //   GDScript:  (crt_rect.material as ShaderMaterial).set_shader_parameter("aberration", 2.0)

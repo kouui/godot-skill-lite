@@ -3,7 +3,7 @@
 # function with no node and no frame behind it, so it can be unit-tested with
 # `scripts/test/run_tests.py --framework mini`.
 #
-# Expected scene tree (node name : type) — playbook 15 builds exactly this:
+# Expected scene tree (node name : type) — playbook 9 builds exactly this:
 #   Hero : CharacterBody2D            (in the group "player")
 #     Sprite : AnimatedSprite2D
 #     CollisionShape2D : CollisionShape2D

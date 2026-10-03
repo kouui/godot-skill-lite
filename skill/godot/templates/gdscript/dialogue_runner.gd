@@ -18,7 +18,7 @@
 #   `branch` routes on a flag before `next` is considered:
 #     {"branch": [{"require_flag": "promised", "next": "kept"}], "next": "broke"}
 #
-# Expected scene tree (node name : type) — playbook 16 builds exactly this:
+# Expected scene tree (node name : type) — playbook 5 builds exactly this:
 #   Talk : Node2D                      (talk.gd wires the two together)
 #     Dialogue : Node                  <- attach this script here
 #                                         unique_name_in_owner = true (%Dialogue)

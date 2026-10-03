@@ -9,7 +9,7 @@
 supported author, so an agent driving Godot from a shell has to hand-write
 ``project.godot``, guess the stretch mode, invent the input map and remember
 that ``ProjectSettings.save()`` drops anything that equals an engine default.
-This script runs the whole of ``references/playbooks.md`` section 1 — folders,
+This script sets up a new project — folders,
 project settings, input map, physics/render layer names, a main scene, the
 shared autoloads — through the bundled dispatcher, so Godot itself writes every
 setting, and then proves the result:
@@ -176,7 +176,7 @@ def preset_config(preset: str, name: str, size: tuple[int, int] | None) -> dict:
                 # scales the result, so a 1px line stays 1 game pixel wide.
                 # "integer" forbids the half-pixel scale factors that make a
                 # pixel grid shimmer. If the UI text looks mushy, switch
-                # stretch/mode to "canvas_items" (playbooks.md section 1).
+                # stretch/mode to "canvas_items".
                 "display/window/stretch/mode": "viewport",
                 "display/window/stretch/aspect": "keep",
                 "display/window/stretch/scale_mode": "integer",
@@ -547,7 +547,7 @@ def main(argv: list[str] | None = None) -> int:
         return refuse(
             f"{project_file} already exists; scaffold_project.py never writes into an existing project. "
             "Point --dest at a new directory, or edit this one with "
-            f"project_batch / scene_batch (see {SKILL_ROOT / 'references/playbooks.md'} section 1).",
+            f"project_batch / scene_batch (see {SKILL_ROOT / 'references/playbooks.md'}, Standard Setup).",
             project_path=str(dest))
     if dest.exists() and not dest.is_dir():
         return refuse(f"{dest} exists and is not a directory")
@@ -809,7 +809,7 @@ def next_commands(dest: Path, preset: str) -> list[str]:
         f"uv run {VALIDATE_SCRIPT} {dest} --pretty",
         (f"godot --headless --path {dest} --script {DISPATCHER} "
          f"add_export_preset '{{\"platform\":\"web\"}}'"),
-        f"cat {SKILL_ROOT / 'references/playbooks.md'}   # section 2 adds a player",
+        f"cat {SKILL_ROOT / 'references/playbooks.md'}   # playbook 1 adds a player",
     ]
 
 

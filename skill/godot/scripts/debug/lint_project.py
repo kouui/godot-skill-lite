@@ -308,8 +308,7 @@ GODOT3_RULES: list[dict] = [
           r'type\s*=\s*"Tween"',
           "`Tween` is not a Node in Godot 4.x (it is a RefCounted created by "
           "`create_tween()`), so a `Tween` node in a scene fails to load.",
-          "Delete the Tween node and call `create_tween()` in the script that animates. "
-          "See references/tween.md.",
+          "Delete the Tween node and call `create_tween()` in the script that animates.",
           scope="scene"),
 
     # --- signals ------------------------------------------------------------
@@ -2472,7 +2471,7 @@ class Linter:
         rule = INFERENCE_RULES[rule_id]
         self.emit(
             rule["severity"], "inference", rule["message"], res_path, number,
-            rule["fix"] + " See references/gdscript_conventions.md.",
+            rule["fix"] + " See references/debugging.md.",
             rule=rule_id,
         )
 

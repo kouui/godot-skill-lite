@@ -2,7 +2,7 @@
 # dialogue_runner.gd: feed it the `choices_shown` payload, and it emits
 # `choice_selected(index)` with the index that `runner.choose()` expects.
 #
-# It lives *inside* the dialog box from playbook 9 rather than replacing it:
+# It lives *inside* the dialog box from playbook 5 rather than replacing it:
 # dialog_box.gd still types the line, this node draws the answers.
 #
 # Verified on 4.7: a focused Button does NOT consume the `ui_accept` key press.
@@ -11,7 +11,7 @@
 # takes `ui_accept` in `_input` (which runs before both) and activates the
 # focused choice itself.
 #
-# Expected scene tree (node name : type) — playbook 16 builds exactly this:
+# Expected scene tree (node name : type) — playbook 5 builds exactly this:
 #   DialogueBox : CanvasLayer         (dialog_box.gd, layer 5)
 #     DialogRoot : Control
 #       Anchor : MarginContainer
