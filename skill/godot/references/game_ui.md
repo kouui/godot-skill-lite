@@ -138,7 +138,7 @@ uv run /absolute/path/to/godot/scripts/debug/run_scenario.py \
 ```
 
 - Assert the numbers that matter (a column's width, a footer's position) so regressions fail loudly.
-- Re-run at a second `viewport_size` (e.g. 1920x1080 and 1280x720). Add a `{"type":"screenshot","path":"/absolute/output/title.png"}` step and look at it when the host can view images (the runner switches to a rendered window when a screenshot step is present, unless `--headless`).
+- Re-run at a second size (e.g. 1920x1080 and 1280x720), and read `ui_reports[0].viewport` to confirm it took: `viewport_size` only applies with `stretch/mode` `disabled`; under `canvas_items` / `viewport` (every scaffold preset) layout uses the base `display/window/size/viewport_*`, so change those via `project_batch` instead. Add a `{"type":"screenshot","path":"/absolute/output/title.png"}` step and look at it when the host can view images (the runner switches to a rendered window when a screenshot step is present, unless `--headless`).
 - Finish with `scripts/debug/validate_project.py`.
 
 Done means `findings: 0` at two resolutions, a theme applied, and a visible focus state.

@@ -284,9 +284,9 @@ def build_command(args: argparse.Namespace, project: Path, runner: Path, scene: 
 
 
 def kill_group(proc: subprocess.Popen) -> None:
-    if not hasattr(os, "killpg"):
-        # Windows has no process groups: kill the whole tree (godot_console
-        # spawns the real godot.exe as a child) and fall back to the process.
+    if sys.platform == "win32":
+        # Windows has no POSIX process groups (start_new_session is ignored):
+        # kill the whole tree, since godot_console spawns godot.exe as a child.
         subprocess.run(["taskkill", "/F", "/T", "/PID", str(proc.pid)],
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=False)
         try:
@@ -294,6 +294,7 @@ def kill_group(proc: subprocess.Popen) -> None:
         except OSError:
             pass
         return
+    # Linux: the run was started in its own session, so kill the group.
     try:
         os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
     except (ProcessLookupError, PermissionError):

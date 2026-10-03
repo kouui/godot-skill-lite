@@ -143,4 +143,4 @@ Exit leak: `1 resources still in use at exit` / `ObjectDB instances were leaked`
 1. Generate; keep the printed `expect`.
 2. `inspect_audio` with that `expect`: exit 0, or the message names the wrong number.
 3. `--import`, `set_import_options` for loops, `inspect_audio` again to confirm `import_loop`.
-4. `run_project.py` (or a scenario) so a missing `.import`, wrong bus name or null stream surfaces as a diagnostic instead of silence.
+4. `run_project.py` (or a scenario) so a missing `.import` or null stream surfaces as a diagnostic instead of silence. A wrong `bus` name does not: Godot falls back to Master with no diagnostic, so compare the node's `bus` against the names `setup_audio_buses` returned (or assert `AudioServer.get_bus_index(name) >= 0` in your own script).

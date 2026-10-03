@@ -53,7 +53,7 @@ Which tool: files load and node trees valid = `validate_project.py`; game boots 
 ## Capturing output correctly
 
 - Always run Godot with `-d --ignore-error-breaks` as a pair. GDScript warnings (unused variable, shadowing, integer division, narrowing...) only reach stdout through the script debugger channel, so a plain `godot --headless` run prints nothing while the editor shows many. `--ignore-error-breaks` stops the debugger breaking to a `debug>` prompt that would end the run. The bundled Python tools pass both (`--no-debugger` opts out) and give Godot `/dev/null` stdin.
-- Exit code 0 is necessary, not sufficient: a runtime error inside a dispatcher op aborts that op but the dispatcher still exits 0. The Python wrappers gate on the parsed log. When calling the dispatcher directly, pipe through `godot_log_parser.py`.
+- Exit code 0 is necessary, not sufficient: an engine `SCRIPT ERROR` inside a dispatcher op (e.g. `attach_script` loading a script with a parse error) is printed but the dispatcher still exits 0, and the scene still saves without the script. Only errors the op itself logs (`[ERROR] ...`) give exit 1 (`run_gdscript` and `check_project` do). The Python wrappers gate on the parsed log. When calling the dispatcher directly, pipe through `godot_log_parser.py`.
 - Bound every run: `--quit-after N` (use >= 2; 1 fails first-launch import) plus `--timeout`. `"timed_out": true` is a finding (infinite loop or blocking call).
 - Headless catches logic errors; rendering- or audio-only problems need `--no-headless`.
 - `ERROR: N resources still in use at exit` / `ObjectDB instances were leaked at exit` are `info` (`exit_leak`, usually audio playing at quit); for real leaks use `smoke_scenes.py`. Missing GPU/sound-card driver probe errors are `info` (`host_capability`); the `switching to OpenGL 3` / dummy-audio-driver warnings stay warnings because the renderer changed under you (`RenderingServer.get_current_rendering_method()` tells the truth, not the project setting).
@@ -62,13 +62,15 @@ Which tool: files load and node trees valid = `validate_project.py`; game boots 
 
 ## Message -> cause -> fix
 
+`category` is matched from the message text and falls back to `unknown`. A parse error has `severity: parse_error` (counted in `counts.parse_errors`) and usually `category: unknown`; `Out of bounds get index` and `Can't emit non-existing signal` are also `unknown`. Match on `message`, not `category`.
+
 | Message contains | `category` | Cause / fix |
 | --- | --- | --- |
 | `null instance`, `on a null value` | `null_reference` | Node accessed before it is in the tree, or wrong/renamed path. `@onready`, access in `_ready`, `get_node_or_null()` + guard, fix path. |
-| `Invalid get index` / `Invalid set index` | `invalid_index` | Missing key/index or wrong base type; check names and non-null. |
+| `Invalid get index` / `Invalid set index` / `Out of bounds get index` | `invalid_index` | Missing key/index or wrong base type; check names and non-null. |
 | `Invalid access to property or key` | `invalid_member` | Member absent on that object type (base may be null). |
 | `nonexistent function`, `not found in base` | `missing_method` | Typo, wrong node class, or outdated API: fix the name or cast; check with `api_lookup.py`. |
-| `nonexistent signal`, `Signal ... is not declared` | `signal` | Declare `signal name(...)` or fix target; prefer the `connect_signal` op. |
+| `nonexistent signal`, `non-existing signal`, `Signal ... is not declared` | `signal` | Declare `signal name(...)` or fix target; prefer the `connect_signal` op. |
 | `not declared in the current scope` | `undeclared_identifier` | Typo or missing `preload`/`class_name`; for a new `class_name` run `--import` (above) or `const X = preload("res://x.gd")`. |
 | `Trying to assign value of type`, `Cannot convert`, `Cannot assign a value of type ... to variable` | `type_mismatch` / `parse_error` | Fix the declared type, convert, or `as` + null guard (often a `Node` from `$`/`instantiate()` into an unrelated type). |
 | `Cannot infer the type of "x" variable because the value doesn't have a set type` | `parse_error` | `:=` on untyped RHS; annotate (typing rule). |

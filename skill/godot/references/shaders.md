@@ -105,7 +105,7 @@ A `ShaderMaterial` is a shared resource: `set_shader_parameter` on it flashes ev
 - No shader warnings outside the editor: a headless run reports errors only, so "zero warnings" means none were looked for.
 - Depth reconstruction from `hint_depth_texture` differs by renderer: `ndc.z = raw` on Forward+/Mobile, `raw * 2.0 - 1.0` on Compatibility. The wrong one does not error, it saturates. `water_3d` exposes a `compatibility_depth` uniform; set it from the renderer actually running: `RenderingServer.get_current_rendering_method() == "gl_compatibility"` (not the project setting; GPU-less machines silently fall back to OpenGL).
 - `hint_normal_roughness_texture` is Forward+ only. `hint_screen_texture` works on all three renderers.
-- Uniform arrays have no default (unset slots are zero); always set the companion count uniform (`color_count` for `palette_swap`).
+- Uniform arrays have no default (unset slots are zero); always set the companion count uniform (`color_count` for `palette_swap`); 0 means the shader does nothing.
 
 ## Verify
 
@@ -139,11 +139,11 @@ Run: `uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/pat
 
 | Effect | Number that proves it |
 | --- | --- |
-| `flash` at 1.0 | `dominant_colors[0]` is the flash colour, `content_bbox` unchanged |
+| `flash` at 1.0 | the flash colour replaces the sprite colours in `dominant_colors` (the background stays first when the sprite is small), `content_bbox` unchanged |
 | `grayscale` at 1.0 | every dominant colour has R == G == B |
-| `outline_2d` | `content_bbox` grows by `outline_width` per side |
+| `outline_2d` | `content_bbox` grows by `outline_width` per side (only if the art has that much transparent margin: `process_image` `pad` with `width`/`height`) |
 | `dissolve_2d` at 1.0 | `blank: true` |
 | `palette_swap` | source colour gone, target present |
 | `pixelate` | `unique_colors` drops sharply |
-| `toon` | `unique_colors` collapses to about `bands` + background |
+| `toon` | `dominant_colors` shows about `bands` shades + background (`unique_colors` stays in the hundreds from edge, specular and rim blending) |
 | screen reader (`crt`, `vignette`) | frame differs from the same scene without the rect |

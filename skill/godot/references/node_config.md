@@ -10,7 +10,7 @@ Runs by default inside the standard validator:
 uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
 ```
 
-Read `config_warnings[]` entries `{scene, node_path, node_type, rule, severity, message, fix}` (also logged as `WARNING: [node_config:<rule>] ...`). `fix` is a runnable dispatcher call (paste it, re-validate); a `<Placeholder>` in it must be substituted first (`joint_without_nodes`, `remote_transform_bad_path`, `animation_tree_without_player`). `node_path` starts at `root`.
+Read `static.config_warnings[]` entries `{scene, node_path, node_type, rule, severity, message, fix}` (also logged as `WARNING: [node_config:<rule>] ...`). `fix` is a runnable dispatcher call (paste it, re-validate); a `<Placeholder>` in it must be substituted first (`joint_without_nodes`, `remote_transform_bad_path`, `animation_tree_without_player`). `node_path` starts at `root`.
 
 - `severity: warning` = editor parity; fails the run only with `--warnings-as-errors`. `severity: hint` = heuristic, never fails anything (shown under `node_config.hints`).
 - Opt out: `--no-config-warnings`, `--no-physics-layers`; `--no-instantiate` disables both.
@@ -46,7 +46,7 @@ Read `config_warnings[]` entries `{scene, node_path, node_type, rule, severity, 
 
 ## Physics layer/mask survey
 
-`config_warnings` is accompanied by `physics_layers` in the same result: per bit, who occupies it (collision_layer of bodies, TileSet physics layers, GridMap, CSG with collision) and who scans it (masks of bodies, monitoring Areas, enabled RayCast/ShapeCast; StaticBody never scans). Names come from `layer_names/2d_physics/layer_N` (set with `project_batch` `set_layer_name`; named layers make the report readable). Findings (all hints, with a `fix`):
+`static.config_warnings` is accompanied by `static.physics_layers` (also `node_config.physics_layers`; read `.findings`): per bit, who occupies it (collision_layer of bodies, TileSet physics layers, GridMap, CSG with collision) and who scans it (masks of bodies, monitoring Areas, enabled RayCast/ShapeCast; StaticBody never scans). Names come from `layer_names/2d_physics/layer_N` (set with `project_batch` `set_layer_name`; named layers make the report readable). Findings (all hints, with a `fix`):
 
 | Finding | Meaning |
 | --- | --- |

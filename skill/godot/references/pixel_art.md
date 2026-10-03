@@ -153,7 +153,7 @@ godot --headless --path /absolute/path/to/project \
     "resource_save_path": "art/hero_walk_frames.tres"}'
 ```
 
-Separate frame files (generator output): `process_image` with `{"type": "pack_frames"}` over a directory returns the same `grid`; `{"type": "split_sheet"}` goes back.
+Separate frame files (generator output): `process_image` with `{"type": "pack_frames"}` over `"input_paths": ["art/frames"]` (a directory goes in `input_paths`, not `input_path`) returns the same `grid`; `{"type": "split_sheet"}` goes back.
 
 ## 4. Cleaning art that came from an image generator
 
