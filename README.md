@@ -23,6 +23,8 @@ To try a local checkout:
 .claude-plugin/
   plugin.json        plugin manifest
   marketplace.json   single-plugin marketplace (source: ./)
+agents/
+  godot-game-builder.md   subagent that builds and verifies a whole game
 skills/
   godot/
     SKILL.md         skill entry point
@@ -31,9 +33,13 @@ skills/
     templates/       GDScript, shader and test templates
 ```
 
+## Usage
+
+The `godot` skill loads on its own for Godot work. For a whole game or feature, delegate to the subagent: ask Claude to "use the godot-game-builder agent to make a Sokoban game in ./sokoban", or mention `@agent-godot:godot-game-builder`.
+
 ## Requirements
 
-- Python 3
+- [uv](https://docs.astral.sh/uv/): every Python tool is a PEP 723 single-file script run with `uv run`
 - Godot 4.x on `PATH`, or set `GODOT_BIN` / pass `--godot-bin`, for anything that runs the engine
 
 ## Credits
