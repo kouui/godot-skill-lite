@@ -233,7 +233,7 @@ func _check_image_expectations(expect: Dictionary, described: Dictionary, path: 
             "has_alpha":
                 actual = bool(_field(described, "has_alpha", false))
                 ok = bool(actual) == bool(wanted)
-                message = "has_alpha is %s - re-export the PNG with a transparent background, or cut a flat background out with scripts/assets/chroma_key_cutout.py" % actual
+                message = "has_alpha is %s - re-export the PNG with a transparent background, or cut a flat background out with the process_image operation" % actual
             "width":
                 actual = int(_field(described, "width", 0))
                 ok = int(actual) == int(wanted)

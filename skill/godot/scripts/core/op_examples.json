@@ -269,34 +269,6 @@
     ],
     "see": "references/automation_api.md#build_animation_tree"
   },
-  "build_replication_config": {
-    "summary": "Author a SceneReplicationConfig .tres for a MultiplayerSynchronizer.",
-    "params": {
-      "resource_path": "(required) .tres to write — \"net/player_repl.tres\"",
-      "properties": "(required) [{\"path\": \".:position\", \"spawn\": true, \"replication_mode\": \"never\"|\"always\"|\"on_change\"}]; paths are \"NodePath:property\" relative to the synchronizer's root_path",
-      "create_if_missing": "(default: true) false requires the resource to exist already"
-    },
-    "example": {
-      "resource_path": "net/player_repl.tres",
-      "create_if_missing": true,
-      "properties": [
-        {
-          "path": ".:position",
-          "spawn": true,
-          "replication_mode": "on_change"
-        },
-        {
-          "path": ".:velocity",
-          "replication_mode": "always"
-        }
-      ]
-    },
-    "notes": [
-      "Property paths are relative to the synchronizer's root_path (its parent by default).",
-      "Assign the result with configure_node's replication_config property on the MultiplayerSynchronizer."
-    ],
-    "see": "references/automation_api.md#build_replication_config"
-  },
   "build_sprite_frames": {
     "summary": "Build SpriteFrames animations on an AnimatedSprite2D from a spritesheet grid or a list of frame files.",
     "params": {
@@ -885,26 +857,6 @@
       "Headless-saved .tres/.tscn files carry no uid= header; run resave_resources to try to regenerate the sidecars, then re-check."
     ],
     "see": "SKILL.md#scene-editing-surface"
-  },
-  "gltf_export": {
-    "summary": "Export a 3D scene or a subtree to .glb/.gltf through GLTFDocument.",
-    "params": {
-      "scene_path": "(required) 3D scene to export — \"scenes/kit.tscn\"",
-      "out": "(required) output file; the extension picks the format (.glb binary, .gltf text). res://, user://, absolute, or project-relative",
-      "node_path": "(default: \"root\") export just this subtree — \"root/Props\"",
-      "flags": "(default: 0) GLTFDocument export flags bitmask"
-    },
-    "example": {
-      "scene_path": "scenes/kit.tscn",
-      "node_path": "root",
-      "out": "export/kit.glb"
-    },
-    "notes": [
-      "The extension of out selects the format: .glb binary, .gltf text.",
-      "glTF carries 3D data only. Pointing it at a 2D scene still exits 0 and writes a file — one glTF node per Node2D, no meshes, an empty buffer — so export a scene whose geometry is MeshInstance3D/CSG and check the file size, not just the exit code.",
-      "Import stays with the standard --import pipeline."
-    ],
-    "see": "references/automation_api.md#gltf_export"
   },
   "help": {
     "summary": "List every dispatcher operation, or print one operation's parameters, example, and runnable command.",
@@ -1634,7 +1586,7 @@
       "The file is written only after every action succeeds, so a failed action leaves the old resource untouched.",
       "Prefer set_properties (inspectable through inspect_resource) and keep call_method for builder-only APIs: Curve2D.add_point, Gradient.add_point, Theme.set_color, Animation.add_track, TileSet.add_source, SpriteFrames.add_animation.",
       "bake_navmesh needs collision/procedural geometry — the headless renderer cannot read visual meshes back from the GPU. Set agent/cell parameters with a preceding set_properties.",
-      "Dedicated ops exist for the common resources: build_tileset, build_theme, build_animation, build_replication_config."
+      "Dedicated ops exist for the common resources: build_tileset, build_theme, build_animation."
     ],
     "see": "references/automation_api.md#resource-transactions"
   },
@@ -1877,11 +1829,6 @@
       "script": "scripts/assets/make_music.py",
       "summary": "Render a seamlessly looping chiptune WAV from a preset or a JSON song; --list-presets.",
       "command": "uv run <skill>/scripts/assets/make_music.py --preset overworld --out <project>/audio/"
-    },
-    {
-      "script": "scripts/assets/chroma_key_cutout.py",
-      "summary": "Cut a flat chroma-key background out of generated art (needs Pillow + NumPy; process_image needs neither).",
-      "command": "uv run <skill>/scripts/assets/chroma_key_cutout.py --help"
     },
     {
       "script": "scripts/project/move_resource.py",

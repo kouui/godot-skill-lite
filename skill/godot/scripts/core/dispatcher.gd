@@ -243,10 +243,6 @@ func _script_path_for(operation: String) -> String:
             return local_dir.path_join("../scene/bake_csg.gd")
         "build_theme":
             return local_dir.path_join("../resource/build_theme.gd")
-        "gltf_export":
-            return local_dir.path_join("../export/gltf_export.gd")
-        "build_replication_config":
-            return local_dir.path_join("../resource/build_replication_config.gd")
         "build_animation":
             return local_dir.path_join("../scene/build_animation.gd")
         "build_animation_tree":

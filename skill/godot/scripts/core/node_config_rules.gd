@@ -653,17 +653,6 @@ static func _rule_multiplayer_synchronizer(context: Dictionary, findings: Array)
             + "to be able to synchronize properties.",
             _configure_fix(context, {"root_path": {"__type": "NodePath", "value": ".."}}))
         return
-    if not bool(context["hints"]):
-        return
-    if node.replication_config == null:
-        _add(context, findings, "multiplayer_synchronizer_without_config", SEVERITY_HINT,
-            "Root Path resolves, but no SceneReplicationConfig is assigned, so this synchronizer replicates nothing.",
-            _op("build_replication_config", {
-                "resource_path": "net/player_sync.tres",
-                "properties": [{"path": ":position", "spawn": true, "sync": true}],
-                "scene_path": context["scene"],
-                "node_path": context["path"],
-            }))
 
 static func _rule_multiplayer_spawner(context: Dictionary, findings: Array) -> void:
     var node := context["node"] as MultiplayerSpawner
