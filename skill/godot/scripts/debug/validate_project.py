@@ -117,6 +117,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
             "NodePaths, dead [connection] targets, and missing res:// files."
         ),
     )
+    parser.add_argument("--summary", action="store_true",
+                        help="Print only the verdict, counts and the first problems instead of the full report.")
     parser.add_argument("--pretty", action="store_true")
     return parser.parse_args(argv)
 
@@ -152,6 +154,29 @@ def node_config_summary(static: dict) -> dict:
     if physics is not None:
         summary["physics_layers"] = physics
     return summary
+
+
+def _brief(diagnostic: dict) -> dict:
+    keep = ("severity", "category", "message", "file", "line", "source", "rule", "fix")
+    return {key: diagnostic[key] for key in keep if diagnostic.get(key) not in (None, "")}
+
+
+def summarize(payload: dict) -> dict:
+    static = payload.get("static") or {}
+    physics = (static.get("physics_layers") or {}).get("findings") or []
+    config = static.get("config_warnings") or []
+    problems = [d for d in payload.get("diagnostics", []) if d.get("severity") in ("error", "parse_error", "warning")]
+    return {
+        "ok": payload["ok"],
+        "counts": payload["counts"],
+        "failed_count": static.get("failed_count"),
+        "failed": (static.get("failed") or [])[:10],
+        "problems": [_brief(d) for d in problems[:15]],
+        "config_warnings": [_brief(d) for d in config if d.get("severity") != "hint"][:10],
+        "config_hints": sum(1 for d in config if d.get("severity") == "hint"),
+        "physics_layer_findings": [f for f in physics if f.get("severity") != "hint"][:10],
+        "physics_layer_hints": sum(1 for f in physics if f.get("severity") == "hint"),
+    }
 
 
 def command_result(completed: subprocess.CompletedProcess[str]) -> dict:
@@ -269,6 +294,8 @@ def main(argv: list[str] | None = None) -> int:
         "godot": command_result(checked),
         "csharp": csharp,
     }
+    if args.summary:
+        payload = summarize(payload)
     print(json.dumps(payload, indent=2 if args.pretty else None))
     return 0 if ok else 1
 

@@ -206,7 +206,7 @@ func execute(params: Dictionary) -> void:
 		# same platform ("Linux" + "Linux Server") would overwrite the first
 		# one's artifact on every "Export All".
 		var subdir := str(spec["subdir"]) if preset_name == str(spec["name"]) else _slug(preset_name)
-		export_path = "../build/%s/%s" % [subdir, base_name]
+		export_path = "build/%s/%s" % [subdir, base_name]
 
 	var runnable_default := not runnable_taken
 	var runnable := bool(params.get("runnable", runnable_default))
@@ -299,6 +299,7 @@ func execute(params: Dictionary) -> void:
 				("Could not create the export directory %s (%s). Godot fails an export into a "
 				+ "missing directory with \"Prepare Template: The given export path doesn't exist.\" — "
 				+ "create it, or pass a different export_path.") % [output_dir, error_string(dir_error)])
+	_ensure_gdignore(absolute_project, absolute_output)
 	if not bool(spec["verified"]):
 		notes.append(
 			("This preset block is the best known configuration for %s but was NOT proven by a real "
@@ -474,6 +475,23 @@ func _skill_script_path(file_name: String) -> String:
 	# The dispatcher loads op scripts by absolute path, so resource_path is the
 	# on-disk location of this file and its siblings can be named absolutely.
 	return str(get_script().resource_path).get_base_dir().path_join(file_name).simplify_path()
+
+# An export inside the project would be re-imported by the editor (the web
+# build's .png files grow .import sidecars); a .gdignore in the top-level
+# folder holding the build keeps Godot out of it.
+func _ensure_gdignore(absolute_project: String, absolute_output: String) -> void:
+	var prefix := absolute_project + "/"
+	if not absolute_output.begins_with(prefix):
+		return
+	var relative := absolute_output.substr(prefix.length())
+	if not relative.contains("/"):
+		return
+	var top_dir := prefix + relative.get_slice("/", 0)
+	var marker := top_dir.path_join(".gdignore")
+	if DirAccess.dir_exists_absolute(top_dir) and not FileAccess.file_exists(marker):
+		var file := FileAccess.open(marker, FileAccess.WRITE)
+		if file != null:
+			file.close()
 
 func _globalize_export_path(export_path: String) -> String:
 	if export_path.begins_with("res://") or export_path.begins_with("user://"):

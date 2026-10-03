@@ -92,6 +92,8 @@ Parameters come from `help '{"op":"<name>"}'`; only the traps are here.
 
 ## run_scenario.py
 
+`--summary` prints `ok`, `errors`, failed assertions, each report's `counts` and first `findings`, screenshot paths and log problems.
+
 ```bash
 uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project /absolute/scenario.json --pretty
 ```
@@ -149,6 +151,9 @@ Assertions (in `assertions[]` or an `assert` step): `node_exists`; `visible` (`e
 - The root viewport is sized to `viewport_size`, else the project's `display/window/size/viewport_*` (a headless window is 64x64 otherwise). With `stretch/mode = canvas_items`, `viewport_size` only resizes the window; UI still lays out against the base viewport, so "two resolutions" is one layout.
 - An `action` step calls `Input.action_press/release`: it moves polled state only, so `_input`/`_unhandled_input`/`_gui_input` never run. Player controllers that poll work; pause menus, dialog advance and interact prompts need a `key` step (a real `InputEventKey` through `Input.parse_input_event`).
 - `wait_frames` counts process frames, which a headless run spins far faster than the 60 Hz physics tick: `wait_frames: 60` is a fraction of a simulated second. Use `wait_seconds` or `wait_until` for anything driven by gravity, `move_and_slide` or a Tween.
+- A step that reloads or changes the scene (`reload_current_scene`, a Restart button) frees the scenario's root: later node steps and `assertions[]` fail with "node not found". Prove a restart with `log_assertions` on a line the level prints at start (`min_count` 2).
+- Physics overlaps lag a teleport by a physics frame: after `set_property` on `position`, wait (`wait_seconds` 0.1) before asserting on `body_entered` effects.
+- In `log_assertions` regexes written through a shell heredoc, avoid backslash escapes (`\[`): use `.` or a bracket class (`[[]`), or a plain `contains`.
 - A screenshot step is the only thing that forces a rendered window. A `blank: true` capture of a scene that should draw means the node is hidden, off-screen or was never added.
 
 ### screenshot
@@ -197,6 +202,8 @@ uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/pr
 Boots the main scene (or the one given) headless with `-d --ignore-error-breaks` and prints `{ok, counts, diagnostics[]}` (`diagnostics`: `severity, category, message, file, line, suggested_fix`). `--quit-after N` frames (default 120, minimum 2), `--timeout S` wall clock (default 60), `--log-file PATH`, `--raw` (include the raw log), `--no-warnings`, `--no-headless`, `--extra-arg`, `--dry-run`. `--no-debugger` hides every GDScript warning the editor would show (warnings only travel through the debugger channel), so avoid it. Pass criteria: `ok: true` and `counts.errors == 0`.
 
 ### validate_project.py
+
+`--summary` prints `ok`, `counts`, `failed[]`, the first problems, non-hint config warnings and physics-layer findings, and hint counts.
 
 ```bash
 uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/path/to/project --pretty
@@ -251,6 +258,8 @@ uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/p
 - A scene is booted in isolation: one that expects a parent (a pause menu reading `get_parent().player`) reports errors the real game would not. Read the diagnostic before "fixing" it, or `--exclude` that scene.
 
 ### import_project.py and audit_imports
+
+`--summary` prints `ok`, the import exit code, audit scalars, `counts` and the first errors.
 
 ```bash
 uv run /absolute/path/to/godot/scripts/import/import_project.py /absolute/path/to/project --pretty

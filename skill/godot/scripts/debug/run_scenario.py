@@ -47,6 +47,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
             "log_assertions written against them)."
         ),
     )
+    parser.add_argument("--summary", action="store_true",
+                        help="Print only the verdict, counts and the first problems instead of the full report.")
     parser.add_argument("--pretty", action="store_true")
     return parser.parse_args(argv)
 
@@ -95,6 +97,32 @@ def compare(actual: float, operator: str, expected: float) -> bool:
         "greater_or_equal": actual >= expected,
         "equals": actual == expected,
     }.get(operator, False)
+
+
+def _brief(diagnostic: dict) -> dict:
+    keep = ("severity", "category", "message", "file", "line", "source", "rule", "fix")
+    return {key: diagnostic[key] for key in keep if diagnostic.get(key) not in (None, "")}
+
+
+def summarize(result: dict) -> dict:
+    def failed(key: str) -> list:
+        return [item for item in result.get(key, []) if not item.get("passed", True)]
+    def report(entry: dict) -> dict:
+        brief = {key: entry.get(key) for key in ("label", "passed", "counts")}
+        brief["findings"] = (entry.get("findings") or [])[:10]
+        return brief
+    return {
+        "ok": result.get("ok"),
+        "returncode": result.get("returncode"),
+        "errors": result.get("errors", []),
+        "counts": result.get("counts"),
+        "failed_assertions": failed("assertions") + failed("log_assertions") + failed("performance_assertions"),
+        "ui_reports": [report(entry) for entry in result.get("ui_reports", [])],
+        "spatial_reports": [report(entry) for entry in result.get("spatial_reports", [])],
+        "screenshots": [{key: entry.get(key) for key in ("path", "passed")} for entry in result.get("screenshots", [])],
+        "log_problems": [_brief(d) for d in result.get("diagnostics", [])
+                         if d.get("severity") in ("error", "parse_error", "warning")][:10],
+    }
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -207,6 +235,8 @@ def main(argv: list[str] | None = None) -> int:
             result.setdefault("errors", []).append(
                 f"Log error during the scenario: {diagnostic['message']}{where}. Fix it; or, when the error is the "
                 'point of the scenario, require it with a log_assertions entry or set "log_errors": "allow".')
+    if args.summary:
+        result = summarize(result)
     print(json.dumps(result, indent=2 if args.pretty else None))
     return 0 if result["ok"] else 1
 

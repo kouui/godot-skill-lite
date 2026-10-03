@@ -86,8 +86,7 @@ data_*/
 mono_crash.*.json
 
 # Exported builds. scripts/export/add_export_preset.gd defaults every preset to
-# ../build/<platform>/ (beside the project, never inside it, so the exporter
-# cannot re-import its own output); this covers a build/ inside the project too.
+# build/<platform>/ and drops a .gdignore in build/ so the editor never imports it.
 /build/
 /builds/
 *.x86_64

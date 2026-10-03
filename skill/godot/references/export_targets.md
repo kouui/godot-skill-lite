@@ -14,7 +14,7 @@ godot --headless --path /absolute/path/to/project \
     {"type":"set_setting","name":"application/config/name","value":"Game"}]}'
 ```
 
-2. Write the preset (`platform`: `web`, `windows`, `linux`, `macos`; it also creates `../build/<platform>/` beside the project):
+2. Write the preset (`platform`: `web`, `windows`, `linux`, `macos`; it also creates `build/<platform>/` inside the project, with a `build/.gdignore` so the editor never imports the build):
 
 ```bash
 godot --headless --path /absolute/path/to/project \
@@ -26,12 +26,12 @@ godot --headless --path /absolute/path/to/project \
 
 ```bash
 uv run /absolute/path/to/godot/scripts/export/export_project.py \
-  /absolute/path/to/project "Web" /absolute/build/web/index.html
+  /absolute/path/to/project "Web" /absolute/path/to/project/build/web/index.html
 ```
 
 `export_project.py PROJECT PRESET OUTPUT [--mode release|debug|pack|patch] [--preflight-only] [--patches BASE.pck]`. Preset names are exact and case-sensitive (`Web`, `Windows Desktop`, `Linux`, `macOS`); a wrong name lists every preset in the file. `--preflight-only` checks preset, templates and output path without exporting; `--mode pack` needs no export templates. Prefer `--mode debug` for a first smoke test. Godot does not create the output directory (the wrapper creates its parent) and has exited 0 while producing nothing, so the wrapper checks the artifact exists and is non-empty.
 
-`add_export_preset` params: `platform` (required), `name`, `export_path` (default `../build/<platform>/<artifact>`, beside the project, never inside), `options` (free-form, merged over verified defaults, never key-checked), `overwrite` (default false: an existing name is an error), `export_filter`/`include_filter`/`exclude_filter`, `custom_features`. Run `help '{"op":"add_export_preset"}'` for the rest. The file is edited as text, so presets authored in the editor (signing, profiles) keep their exact bytes.
+`add_export_preset` params: `platform` (required), `name`, `export_path` (default `build/<platform>/<artifact>`; any output inside the project gets a `.gdignore` in its top-level folder from both `add_export_preset` and `export_project.py`), `options` (free-form, merged over verified defaults, never key-checked), `overwrite` (default false: an existing name is an error), `export_filter`/`include_filter`/`exclude_filter`, `custom_features`. Run `help '{"op":"add_export_preset"}'` for the rest. The file is edited as text, so presets authored in the editor (signing, profiles) keep their exact bytes.
 
 `platform=` in the file is `Web`, `Windows Desktop`, `Linux`, `macOS`. `Linux/X11` is an outdated name and exports nothing.
 
@@ -47,8 +47,8 @@ uv run /absolute/path/to/godot/scripts/export/export_project.py \
 Serve and check (`python3 -m http.server` is not enough: no COOP/COEP, and the browser rejects `.wasm` without `application/wasm`):
 
 ```bash
-uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web --check --pretty
-uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web
+uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/path/to/project/build/web --check --pretty
+uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/path/to/project/build/web
 ```
 
 `--check` starts the server, requests `index.html`, `.wasm` and `.pck`, asserts status, content types, COOP/COEP and a 404 for a missing file, prints JSON (`ok`, `cross_origin_isolated`, `threaded_build`, `checks[]`, `failed[]`) and exits 0/1; a directory that is not a web export exits 2. Without `--check` it serves on `127.0.0.1:8060` (`--port 0` picks a free port, `--no-isolation` mimics a plain static host).
@@ -73,12 +73,12 @@ Four facts that cost an hour each:
 Cross-exporting from another OS works; only `.dmg` needs a macOS host. Output `.app` writes a bundle directory. The binary is `Contents/MacOS/<application/config/name>` (not the preset or `.app` name) and takes engine flags, which is the cheapest "did the build run" check (needs a main scene or it hangs):
 
 ```bash
-/absolute/build/macos/Game.app/Contents/MacOS/Game --headless --quit-after 20
+/absolute/path/to/project/build/macos/Game.app/Contents/MacOS/Game --headless --quit-after 20
 ```
 
 ## Pack and patch
 
-`--mode pack` writes only a `.pck`; `--mode patch --patches /absolute/build/base.pck` writes a delta against a base from the same project and preset, and fails `Save PCK: No files or changes to export.` (exit 1) if nothing changed since the base.
+`--mode pack` writes only a `.pck`; `--mode patch --patches /absolute/path/to/project/build/base.pck` writes a delta against a base from the same project and preset, and fails `Save PCK: No files or changes to export.` (exit 1) if nothing changed since the base.
 
 ## Checklist
 

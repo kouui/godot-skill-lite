@@ -34,8 +34,11 @@ def run(command: list[str]) -> subprocess.CompletedProcess[str]:
 
 
 def template_candidates(version: str) -> list[Path]:
-    version_parts = version.split(".")
-    version_key = ".".join(version_parts[:3]) if len(version_parts) >= 3 else version
+    # Templates live in "<major>.<minor>[.<patch>].<status>" ("4.7.2.stable",
+    # "4.3.stable"): keep the numeric parts plus the status, drop build + hash.
+    version_parts = version.strip().split(".")
+    status = next((i for i, part in enumerate(version_parts) if not part.isdigit()), len(version_parts) - 1)
+    version_key = ".".join(version_parts[:status + 1])
     home = Path.home()
     candidates = [
         home / "Library/Application Support/Godot/export_templates" / version_key,

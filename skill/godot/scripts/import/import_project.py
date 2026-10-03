@@ -23,6 +23,8 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--dispatcher", type=Path)
     parser.add_argument("--timeout", type=float, default=180.0)
     parser.add_argument("--audit-only", action="store_true")
+    parser.add_argument("--summary", action="store_true",
+                        help="Print only the verdict, counts and the first problems instead of the full report.")
     parser.add_argument("--pretty", action="store_true")
     return parser.parse_args(argv)
 
@@ -42,6 +44,23 @@ def extract_payload(output: str) -> dict:
         if line.startswith("{") and line.endswith("}"):
             return json.loads(line)
     raise RuntimeError("Import audit did not emit a JSON payload")
+
+
+def _brief(diagnostic: dict) -> dict:
+    keep = ("severity", "category", "message", "file", "line", "source", "rule", "fix")
+    return {key: diagnostic[key] for key in keep if diagnostic.get(key) not in (None, "")}
+
+
+def summarize(payload: dict) -> dict:
+    audit = payload.get("audit") or {}
+    return {
+        "ok": payload["ok"],
+        "import_returncode": (payload.get("import") or {}).get("returncode"),
+        "audit": {key: value for key, value in audit.items() if not isinstance(value, (list, dict))},
+        "counts": payload["counts"],
+        "problems": [_brief(d) for d in payload.get("diagnostics", [])
+                     if d.get("severity") in ("error", "parse_error")][:10],
+    }
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -109,6 +128,8 @@ def main(argv: list[str] | None = None) -> int:
         "counts": counts,
         "diagnostics": report["diagnostics"],
     }
+    if args.summary:
+        payload = summarize(payload)
     print(json.dumps(payload, indent=2 if args.pretty else None))
     return 0 if payload["ok"] else 1
 

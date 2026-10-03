@@ -65,8 +65,19 @@ func execute(params: Dictionary) -> void:
         "source_count": tile_set.get_source_count(),
         "physics_layer_count": tile_set.get_physics_layers_count(),
         "custom_data_layer_count": tile_set.get_custom_data_layers_count(),
-        "tiles_exposed": created_tiles
+        # Every tile the saved TileSet exposes, not only the ones this call
+        # created (a re-run on an existing .tres creates none).
+        "tiles_exposed": _count_exposed_tiles(tile_set),
+        "tiles_created": created_tiles
     }))
+
+func _count_exposed_tiles(tile_set: TileSet) -> int:
+    var total := 0
+    for index in range(tile_set.get_source_count()):
+        var source := tile_set.get_source(tile_set.get_source_id(index)) as TileSetAtlasSource
+        if source != null:
+            total += source.get_tiles_count()
+    return total
 
 func _open_tileset(params: Dictionary, target_path: String) -> TileSet:
     if FileAccess.file_exists(target_path):

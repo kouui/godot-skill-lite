@@ -47,7 +47,7 @@ An unknown key is rejected with the nearest valid name and nothing is written, s
 setup_audio_buses {"buses":[{"name":"Master","volume_db":0.0},{"name":"Music","send":"Master","volume_db":-6.0},{"name":"SFX","send":"Master","volume_db":-3.0},{"name":"UI","send":"SFX","volume_db":-4.0}],"save_path":"audio/default_bus_layout.tres","set_project_setting":true}
 ```
 
-6. **Physics layers convention** used by the templates: 1 `world`, 2 `player`, 3 `enemy`, 4 `hitbox/damage` (bitmask value 8); `collision_layer`/`collision_mask` take bitmask values (1, 2, 4, 8, 16). The scaffold names layers 3-6 `enemies`, `pickups`, `hitboxes`, `hurtboxes`; rename with `project_batch` `set_layer_name` (`layer_type` `2d_physics`) so reports match the convention. A pickup sits on its own layer and scans the player layer; a mask bit nothing occupies is a query that can never hit (`mask_targets_empty_layer` in `validate_project.py`).
+6. **Physics layers convention** used by the templates: 1 `world`, 2 `player`, 3 `enemy`, 4 `hitbox/damage` (bitmask value 8); `collision_layer`/`collision_mask` take bitmask values (1, 2, 4, 8, 16). The scaffold names layers 3-6 `enemies`, `pickups`, `hitboxes`, `hurtboxes`; rename with `project_batch` so reports match the convention: `{"actions":[{"type":"set_layer_name","layer_type":"2d_physics","layer":3,"layer_name":"enemy"}]}` (`layer` is 1-based). A pickup sits on its own layer and scans the player layer; a mask bit nothing occupies is a query that can never hit (`mask_targets_empty_layer` in `validate_project.py`).
 
 Wiring facts that apply everywhere:
 
@@ -109,13 +109,13 @@ Verify: scenario asserting `Enemy/Health` `current_health` equals max, waiting 0
 Flow: art, import, `build_tileset`, `TileMapLayer`, `paint_tilemap`, `inspect_tilemap`.
 
 ```json
-build_tileset {"resource_path":"tilesets/world.tres","tile_size":{"x":16,"y":16},"physics_layers":[{"collision_layer":1,"collision_mask":0}],"sources":[{"source_id":0,"texture":"art/tiles.png","tiles":"all","tile_defaults":{"collision":"full_cell"}}]}
+build_tileset {"resource_path":"tilesets/world.tres","tile_size":{"x":16,"y":16},"physics_layers":[{"collision_layer":1,"collision_mask":0}],"sources":[{"source_id":0,"texture":"art/tiles.png","tiles":[{"atlas_coords":{"x":0,"y":0}},{"atlas_coords":{"x":1,"y":0},"collision":"full_cell"}]}]}
 paint_tilemap {"scene_path":"scenes/level.tscn","node_path":"root/Ground","tile_set":"tilesets/world.tres","clear":true,"ascii_map":{"origin":{"x":0,"y":0},"legend":{"#":{"source_id":0,"atlas_coords":{"x":0,"y":0}},".":null},"rows":["....","####"]}}
 ```
 
 Traps:
 - **Import the PNG first** (`uv run .../scripts/import/import_project.py /absolute/path/to/project`). Without it `build_tileset` still saves, but the `.tres` then fails to load (`No loader found for resource`) and `paint_tilemap` says `must resolve to a TileSet resource`.
-- Without `"collision": "full_cell"` the tiles are decoration and the player falls through. Tile physics layer `collision_mask` 0: a floor occupies a layer, it does not scan.
+- The example has a walkable floor `(0,0)` and a solid wall `(1,0)`: list tiles explicitly and give `"collision": "full_cell"` only to solid ones. `"tiles":"all"` with `tile_defaults.collision` makes every tile solid, floor included. A tile without collision is decoration and the player falls through it. Tile physics layer `collision_mask` 0: a floor occupies a layer, it does not scan.
 - Use `TileMapLayer`, never `TileMap`. A scene cannot hold a `StaticBody2D Ground` and a `TileMapLayer Ground` (`Node is not a TileMapLayer`): rename or delete.
 - Atlas coordinates are frame order of a `draw_image` sheet (grass `(0,0)`, dirt `(1,0)`, ...). Legend `null` = empty cell; one character per cell, equal-length rows, no tabs. A painted decorative tile in the walking lane is a wall.
 

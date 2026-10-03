@@ -64,7 +64,7 @@ This file is the index. Read it fully, then open only the reference the task tab
 | Engine API and running quick GDScript (`run_gdscript`) | `references/api_lookup.md` | exit 0 |
 | Dispatcher, typed JSON, batch ops, scenarios, runners, linter | `references/automation_api.md` | as documented there |
 | Runtime errors, a project that will not boot, parse errors | `references/debugging.md` | `run_project.py` `"ok": true` |
-| Something silently does nothing (falls through floor, no collision, invisible) | `references/node_config.md` | `validate_project.py` 0 config warnings, `physics_layers.findings` empty |
+| Something silently does nothing (falls through floor, no collision, invisible) | `references/node_config.md` | `validate_project.py` 0 config warnings, no warning-level `physics_layers.findings` |
 | Is it on screen, in the floor, lit, in front of the camera | `references/spatial_verification.md` | `spatial_report` findings 0 |
 | Unit tests for game logic | `references/testing.md` | `run_tests.py` `"ok": true`, `counts.tests > 0` |
 | Hand-writing `.tscn`/`.tres` | `references/tscn_format.md` | `inspect_scene` nesting matches intent |
@@ -72,7 +72,7 @@ This file is the index. Read it fully, then open only the reference the task tab
 
 ## Tools at a glance
 
-All Python tools take `--help`. Paths are relative to the skill root.
+All Python tools take `--help`. Paths are relative to the skill root. `validate_project.py`, `run_scenario.py` and `import_project.py` print long JSON: pass `--summary` for the verdict, counts and first problems, and rerun without it only when you need the detail.
 
 | Tool | Use |
 | --- | --- |
@@ -114,7 +114,7 @@ Do not attempt these; tell the user they need the editor:
 Run `references/playbooks.md` §13. In short, all of these must hold:
 
 1. `lint_project.py` reports `counts.errors == 0`.
-2. `validate_project.py --warnings-as-errors` reports `"ok": true`, with zero config warnings and no `physics_layers.findings`.
+2. `validate_project.py --warnings-as-errors` reports `"ok": true`, with zero config warnings and no warning-level `physics_layers.findings` (`hint`s such as `layer_never_scanned` on a pickup or enemy layer are expected).
 3. `run_tests.py` reports `"ok": true` with `counts.tests > 0` for logic you wrote.
 4. A `run_scenario.py` scenario drives the core loop and passes. Include `ui_report` (`fail_on: ["any"]`) for UI, `spatial_report` for placement, and one `screenshot` with `expect.not_blank`.
 5. `smoke_scenes.py --seconds 2 --jobs 4 --fuzz` exits 0.

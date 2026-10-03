@@ -107,7 +107,21 @@ def resolve_paths(project_path_arg: str, output_path_arg: str) -> tuple[Path, Pa
     if not project_file.is_file():
         raise SystemExit(f"Missing Godot project file: {project_file}")
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    ensure_gdignore(project_path, output_path)
     return project_path, output_path
+
+
+def ensure_gdignore(project_path: Path, output_path: Path) -> None:
+    """Keep the editor from importing a build written inside the project: put a
+    .gdignore in the top-level project folder that holds the output."""
+    if not output_path.is_relative_to(project_path):
+        return
+    relative = output_path.relative_to(project_path)
+    if len(relative.parts) < 2:
+        return
+    marker = project_path / relative.parts[0] / ".gdignore"
+    if not marker.exists():
+        marker.touch()
 
 
 def build_command(
@@ -287,8 +301,11 @@ def installed_template_path(godot_bin: str) -> Path | None:
     completed = subprocess.run([godot_bin, "--version"], capture_output=True, text=True, encoding="utf-8", errors="replace", check=False)
     if completed.returncode != 0:
         return None
+    # Templates live in "<major>.<minor>[.<patch>].<status>" ("4.7.2.stable",
+    # "4.3.stable"): keep the numeric parts plus the status, drop build + hash.
     parts = completed.stdout.strip().split(".")
-    version = ".".join(parts[:3]) if len(parts) >= 3 else completed.stdout.strip()
+    status = next((i for i, part in enumerate(parts) if not part.isdigit()), len(parts) - 1)
+    version = ".".join(parts[:status + 1])
     candidates = [
         Path.home() / "Library/Application Support/Godot/export_templates" / version,
         Path.home() / ".local/share/godot/export_templates" / version,
@@ -387,8 +404,8 @@ def preflight(
                      '"name":"rendering/textures/vram_compression/import_etc2_astc","value":true}]}\'')
     if platform_name in {"Windows Desktop", "Linux", "Linux/X11"} and "server" in preset_name.lower():
         warnings.append("Dedicated server presets should disable rendering and include the dedicated_server feature tag")
-    if output_path.is_relative_to(project_path):
-        warnings.append("Export output is inside the project tree; confirm it is excluded from source imports and version control")
+    if output_path.is_relative_to(project_path) and len(output_path.relative_to(project_path).parts) < 2:
+        warnings.append("Export output sits directly in the project root; write it under a folder such as build/<platform>/ so a .gdignore can keep the editor from importing it")
 
     return {
         "ok": not errors,
