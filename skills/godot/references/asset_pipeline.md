@@ -93,7 +93,6 @@ every matching pixel, including the ones the subject encloses.
 The older `scripts/assets/chroma_key_cutout.py` does the same job for flat chroma keys and still works, but it
 needs `Pillow` and `NumPy` installed; prefer `process_image` unless you already have that environment.
 
-<!-- replay: skip — external-tool:pillow (needs Pillow and NumPy installed) -->
 ```bash
 uv run /absolute/path/to/godot/scripts/assets/chroma_key_cutout.py \
   --input /absolute/path/to/project/source/hero_idle_raw \

@@ -222,7 +222,6 @@ Speed: a 16-bar stereo `overworld` (31 s of audio, 1.37 M frames) renders in abo
 
 ### Errors name the offender
 
-<!-- replay: fails -->
 ```bash
 uv run /absolute/path/to/godot/scripts/assets/make_music.py --out /absolute/path/to/project/audio/ \
   --song-json '{"tracks":[{"name":"lead","notes":"C4 . H4 ."}]}'
@@ -242,7 +241,7 @@ the same way, with the nearest real name and the legal set. Exit code 1, nothing
 
 ```bash
 godot --headless --path /absolute/project \
-  --script /absolute/godot/scripts/core/dispatcher.gd \
+  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   inspect_audio '{"audio_path":"audio/jump.wav","format":"text","expect":{"not_silent":true,"no_clipping":true,"max_duration":0.4,"pitch_direction":"rising"}}'
 ```
 

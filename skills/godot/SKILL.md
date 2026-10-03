@@ -57,13 +57,13 @@ Read only the playbook section or reference the table names; each is self-contai
 - Require a local `godot` CLI with shell access before using the bundled dispatcher fallback, runtime runner, or CLI export wrapper. The bundled APIs are designed against the current stable Godot docs and verified on Godot `4.7` (compatible with Godot 4.x).
 - Read `references/export_targets.md` only when the task involves packaging, signing, or shipping builds for Android, iOS, Web, Windows, or macOS.
 - Copy a template from `templates/gdscript/` instead of writing a player, state machine, HUD, save system, menu, or dialog controller from memory. Each file is Godot 4.7, fully typed, and verified to compile with zero warnings; its header states the scene tree, autoloads, and input actions it needs and gives the `attach_script` call. Templates with a `class_name` need `godot --headless --path /absolute/project --import` once after copying.
-- Read `references/playbooks.md` when the task matches a common shape (new project, player, enemy, tile level, menu, HUD, pause, dialog, save/load, transitions, 3D starter, generated sound and art, inventory, branching dialogue, settings, or a whole small game — collectathon platformer, wave shooter, sokoban, third-person 3D). Each playbook is a numbered list of runnable command blocks plus a Verify block with the exact expected result — follow it literally rather than improvising an order. Each opens with a `**Requires.**` line naming the earlier sections to replay first, into the same project; every file a command reads is written by an earlier block (scenarios as heredocs, art by `draw_image`), so never hand-save a fenced block or invent a path. All 22 are replayed, Verify blocks included, by `tests/test_playbooks_replay.py`.
-- Run `uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty` before and after touching any `.gd`, `.tscn`, `.tres`, or `.gdshader`. It needs no Godot, finishes in well under a second, and reports what Godot's own messages hide: Godot 3 API, syntax and shader names with the exact 4.x replacement, input actions, groups, `res://` paths and animation names that resolve to nothing, `:=` reads that will not parse, `$Path`/`%Name` references to nodes that do not exist in the scene the script is attached to (with the real children listed), `%Name` without `unique_name_in_owner`, `[connection]` targets whose method is missing, and `ext_resource`/autoload paths that are not on disk. `error` means Godot will refuse to parse or the reference cannot resolve; `warning` means it compiles but is risky.
+- Read `references/playbooks.md` when the task matches a common shape (new project, player, enemy, tile level, menu, HUD, pause, dialog, save/load, transitions, 3D starter, generated sound and art, inventory, branching dialogue, settings, or a whole small game — collectathon platformer, wave shooter, sokoban, third-person 3D). Each playbook is a numbered list of runnable command blocks plus a Verify block with the exact expected result — follow it literally rather than improvising an order. Each opens with a `**Requires.**` line naming the earlier sections to replay first, into the same project; every file a command reads is written by an earlier block (scenarios as heredocs, art by `draw_image`), so never hand-save a fenced block or invent a path. All 22 are replayed end to end, Verify blocks included, by the upstream test suite.
+- Run `uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/lint_project.py" /absolute/path/to/project --pretty` before and after touching any `.gd`, `.tscn`, `.tres`, or `.gdshader`. It needs no Godot, finishes in well under a second, and reports what Godot's own messages hide: Godot 3 API, syntax and shader names with the exact 4.x replacement, input actions, groups, `res://` paths and animation names that resolve to nothing, `:=` reads that will not parse, `$Path`/`%Name` references to nodes that do not exist in the scene the script is attached to (with the real children listed), `%Name` without `unique_name_in_owner`, `[connection]` targets whose method is missing, and `ext_resource`/autoload paths that are not on disk. `error` means Godot will refuse to parse or the reference cannot resolve; `warning` means it compiles but is risky.
 - Read `references/godot3_to_4.md` when the linter reports `godot3_api`, when a project still carries Godot 3 names, or before writing any API from memory — it is the rename table (nodes, resources, syntax, math, Control properties, signals, file/OS) the linter's rules are generated from.
 - Run `help '{}'` through the dispatcher before guessing an operation or parameter name; `help '{"op":"add_node"}'` prints the parameters (`(required)`/`(default: X)` plus value shapes), a runnable example, the gotchas, and a ready-to-paste command. The same listing names every bundled python tool (linter, runners, API lookup, asset generators, file mover, scaffold, export) with a runnable command, so it is the one place to discover what exists.
-- Look an engine name up before you type it: `uv run /absolute/path/to/godot/scripts/docs/api_lookup.py CharacterBody2D.move_and_slide Area2D.body_entered String.begins_with KEY_SPACE` prints the installed engine's exact signatures (classes, inherited members, Variant types, globals, theme items via `--kind theme_items`, `--search TEXT` for a half-remembered name). A name that does not exist exits 1 with the nearest real names and, for a Godot 3 name, its 4.x replacement. It has signatures, not prose. Read `references/api_lookup.md` for it and for `run_gdscript`.
-- Start a new project with `uv run /absolute/path/to/godot/scripts/project/scaffold_project.py /absolute/new_project --preset pixel2d` (`hd2d`, `3d`, `ui`): settings, input map with keyboard and gamepad, layer names, a main scene (the `3d` one already has a camera, a light and an environment), autoload templates, `.gitignore`, a boot-check scenario — validated with zero errors and zero warnings before it returns.
-- Never `mv`, `cp` or rename a file inside a project from the shell: run `uv run /absolute/path/to/godot/scripts/project/move_resource.py /absolute/project art/player.png art/sprites/` (`--map moves.json` for a reorganisation, `--dry-run` to preview). It moves the `.import`/`.uid` sidecars, rewrites every reference, re-imports, and proves with the linter that nothing broke. A bare `mv` can break a project silently: a `uid=` reference keeps loading while its recorded path rots.
+- Look an engine name up before you type it: `uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/docs/api_lookup.py" CharacterBody2D.move_and_slide Area2D.body_entered String.begins_with KEY_SPACE` prints the installed engine's exact signatures (classes, inherited members, Variant types, globals, theme items via `--kind theme_items`, `--search TEXT` for a half-remembered name). A name that does not exist exits 1 with the nearest real names and, for a Godot 3 name, its 4.x replacement. It has signatures, not prose. Read `references/api_lookup.md` for it and for `run_gdscript`.
+- Start a new project with `uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/project/scaffold_project.py" /absolute/new_project --preset pixel2d` (`hd2d`, `3d`, `ui`): settings, input map with keyboard and gamepad, layer names, a main scene (the `3d` one already has a camera, a light and an environment), autoload templates, `.gitignore`, a boot-check scenario — validated with zero errors and zero warnings before it returns.
+- Never `mv`, `cp` or rename a file inside a project from the shell: run `uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/project/move_resource.py" /absolute/project art/player.png art/sprites/` (`--map moves.json` for a reorganisation, `--dry-run` to preview). It moves the `.import`/`.uid` sidecars, rewrites every reference, re-imports, and proves with the linter that nothing broke. A bare `mv` can break a project silently: a `uid=` reference keeps loading while its recorded path rots.
 - Read `references/node_config.md` when something silently does nothing — a player that falls through the floor, an invisible sprite, particles that never emit, a collision that never fires. `check_project` re-derives the editor's node configuration warnings (the yellow triangles, which no script can read) over every instantiated scene, prints each with a `fix:` that is a runnable dispatcher call, and surveys physics layers and masks across the project.
 - Read `references/pixel_art.md` when the task needs sprites, tiles, icons or UI panels and no image generator is available (`draw_image` turns ASCII rows and shapes into a PNG and reads it back character for character), or when generated art has soft edges, off-grid pixels or a baked background (`process_image`: `remove_background`, `trim`, `pixelate`, `quantize`, `pack_frames`, `split_sheet`).
 - Read `references/audio.md` when the game needs sound and none was supplied: `scripts/assets/make_sfx.py` (20 sfxr-style presets) and `scripts/assets/make_music.py` (looping chiptune from a preset or a JSON song) write WAVs with nothing but the python standard library, and `inspect_audio` verifies them as numbers, an ASCII envelope and `expect` gates.
@@ -89,14 +89,18 @@ Read only the playbook section or reference the table names; each is self-contai
 
 ## Portable CLI Fallback
 
-Use these paths in shell-capable environments such as Claude Antigravity when dedicated Godot tools are not exposed.
-Replace `/absolute/path/to/godot` with the absolute path to the installed `godot` Skill root.
+Use these commands in a shell when dedicated Godot tools are not exposed.
+
+- In this file the skill root is written `"${CLAUDE_PLUGIN_ROOT}/skills/godot"`, already resolved to the installed path; keep the double quotes so a Windows path with backslashes survives the shell.
+- `references/*.md`, the GDScript templates and `help` output write the same root as `/absolute/path/to/godot` (or `<skill>`): replace it with that quoted path.
+- `/absolute/path/to/project` (also `/absolute/project`) is the Godot project; `/absolute/<word>` is a scratch path beside it.
+- The dispatcher path must resolve: `godot --script <missing path>` prints `Can't load script` and still exits 0.
 
 ### Scene Operations Through The Dispatcher
 
 ```bash
 godot --headless --path /absolute/path/to/project \
-  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
+  --script "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/core/dispatcher.gd" \
   scene_batch '{"scene_path":"scenes/main.tscn","create_if_missing":true,"root_node_type":"Node2D","actions":[{"type":"add_node","node_type":"Camera2D","node_name":"Camera"}]}'
 ```
 
@@ -112,7 +116,7 @@ godot --headless --path /absolute/path/to/project \
 ### Run And Capture Debugger Errors
 
 ```bash
-uv run /absolute/path/to/godot/scripts/debug/run_project.py \
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/run_project.py" \
   /absolute/path/to/project scenes/main.tscn \
   --quit-after 120 --timeout 60
 ```
@@ -125,16 +129,16 @@ uv run /absolute/path/to/godot/scripts/debug/run_project.py \
 ### Validate Scripts And Scenes Without Running
 
 ```bash
-uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/path/to/project --pretty
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/lint_project.py" /absolute/path/to/project --pretty
 ```
 
 - Run the linter first: it needs no Godot, and its diagnostics carry the fix (`KinematicBody2D → CharacterBody2D; set velocity then call move_and_slide() with no arguments`, `Panel has children: Title, Icon`). Categories: `godot3_api`, `godot3_shader`, `inference`, `node_ref`, `unique_name`, `signal_target`, `missing_resource`, and the cross-reference pass `input_action`, `group_ref`, `res_path`, `animation_ref` — names that resolve to nothing, which Godot never reports: an action no `[input]` entry, built-in `ui_*` or `InputMap.add_action` defines (error, with the defined actions, the nearest name, and the `project_batch` command that creates it), a group nothing ever joins, a `res://` literal that is not on disk (case-sensitively, so a macOS pass means a Linux pass), an animation the node's `SpriteFrames`/`AnimationLibrary` does not hold, and Godot 3 shader names (`hint_color`, `SCREEN_TEXTURE`, `WORLD_MATRIX`, …) with their verified 4.x replacement. Silence one line with `# lint:ignore <category>` on it or on the line above (`;` in `.tscn`, `//` in `.gdshader`); unused suppressions are listed under `suppressions.unused` and never fail the run. A folder holding a `.gdignore` is skipped, as Godot skips it. `--only cat1,cat2` narrows, `--warnings-as-errors` makes warnings fail the run, `--path subdir` scopes it. Output is the same `{ok, counts, diagnostics[]}` shape as the runtime parser. `validate_project.py` runs the same lint pass first and merges its findings (`--no-lint` opts out).
 
 ```bash
 godot --headless --debug --ignore-error-breaks --path /absolute/path/to/project \
-  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
+  --script "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/core/dispatcher.gd" \
   check_project '{}' 2>&1 \
-  | uv run /absolute/path/to/godot/scripts/debug/godot_log_parser.py -
+  | uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/godot_log_parser.py" -
 ```
 
 - `check_project` statically loads every GDScript, scene, shader, resource, GDExtension, and editor plugin (or just a `{"project_path":"subdir"}` subtree) and prints a JSON summary of failures. Piping its combined output through `godot_log_parser.py` yields line-level diagnostics. Keep `--debug --ignore-error-breaks` on the command: because this loads every file, it is the pass that reports the warnings of every script, and without it Godot emits no warnings at all.
@@ -143,14 +147,14 @@ godot --headless --debug --ignore-error-breaks --path /absolute/path/to/project 
 - A `failed_count` of 0 is not by itself a pass. Godot degrades gracefully where the editor is fatal (a scene with a missing `[ext_resource]` still loads and instantiates), so read the parsed diagnostics too.
 - Shaders are compiled, not just loaded: `check_project` assigns each `.gdshader` to a `ShaderMaterial` to force the compile, because `load()` alone accepts a file full of syntax errors. A shader that does not compile is a `failed[]` entry with its line and message, and the op exits 1 — at draw time the engine would silently fall back to the default material. The resulting `SHADER ERROR:` carries no path of its own, so the op prints a `Compiling shader: <path>` marker that `godot_log_parser.py` uses to attribute it — keep the two on the same captured stream.
 - Run `uv run scripts/debug/validate_project.py /absolute/project --pretty` for the comprehensive pass: it runs `check_project` with the debugger attached and scene instantiation on, parses the captured log into `counts`/`diagnostics`, refuses to report `ok` while any error-level diagnostic is present, and builds C# solutions when a `.csproj` exists. Add `--warnings-as-errors` to make warnings fail the run (this is what turns a vanished-parent warning into a failure); `--no-instantiate` skips the instantiate pass.
-- Use `godot_log_parser.py` on its own to structure any Godot log you already have: `uv run /absolute/path/to/godot/scripts/debug/godot_log_parser.py path/to/run.log`.
+- Use `godot_log_parser.py` on its own to structure any Godot log you already have: `uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/godot_log_parser.py" path/to/run.log`.
 - Run every script you generate or edit through this pass before finishing. Parse errors are the most common cause of a project that will not boot, and `references/gdscript_conventions.md` plus the table in `references/debugging.md` map each message Godot emits to its cause and fix.
 - After adding any script with a `class_name`, run `godot --headless --path /absolute/path/to/project --import` before validating. Global class names resolve from `.godot/global_script_class_cache.cfg`, which a `--script` run does not rebuild — until then every other script referencing the new class fails with `Parse Error: Identifier "Foo" not declared in the current scope.`
 
 ### Probe And Run Deterministic Scenarios
 
 ```bash
-uv run /absolute/path/to/godot/scripts/debug/probe_environment.py /absolute/path/to/project --pretty
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/probe_environment.py" /absolute/path/to/project --pretty
 ```
 
 A scenario is a JSON file you write next to the project and hand to the runner:
@@ -170,7 +174,7 @@ cat > /absolute/path/to/project/scenarios/boot_check.json <<'JSON'
   ]
 }
 JSON
-uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/run_scenario.py" /absolute/path/to/project \
   /absolute/path/to/project/scenarios/boot_check.json --pretty
 ```
 
@@ -188,14 +192,14 @@ uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/p
 ### Smoke-Run Every Scene, And Unit Tests
 
 ```bash
-uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project --seconds 2 --jobs 4 --pretty
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/smoke_scenes.py" /absolute/path/to/project --seconds 2 --jobs 4 --pretty
 ```
 
 The unit-test runner installs the bundled framework on first use, then runs it:
 
 ```bash
-uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --init-mini
-uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --pretty
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/test/run_tests.py" /absolute/path/to/project --init-mini
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/test/run_tests.py" /absolute/path/to/project --pretty
 ```
 
 - `smoke_scenes.py` boots every `.tscn` in its own Godot process for `--seconds` of game time (`--fixed-fps` makes that nearly free: 13 scenes × 3 s in about a second) and reports per scene `{ok, diagnostics[], findings[], perf{}}`. It reaches what `run_project.py` (main scene only) and `check_project` (never runs `_ready`/`_process`) cannot: the pause menu's `_ready`, level 3, the game-over screen.
@@ -206,10 +210,10 @@ uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/proje
 
 ```bash
 godot --headless --path /absolute/path/to/project \
-  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
+  --script "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/core/dispatcher.gd" \
   draw_image '{"output_path":"art/coin.png","palette":{"o":"#1a1c2c","y":"#ffcd75","w":"#f4f4f4"},"rows":[".oooo.","oywyyo","oyyyyo","oyyyyo","oyyyyo",".oooo."],"scale":1}'
-uv run /absolute/path/to/godot/scripts/assets/make_sfx.py --preset coin --out /absolute/path/to/project/audio/
-uv run /absolute/path/to/godot/scripts/assets/make_music.py --preset overworld --out /absolute/path/to/project/audio/
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/assets/make_sfx.py" --preset coin --out /absolute/path/to/project/audio/
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/assets/make_music.py" --preset overworld --out /absolute/path/to/project/audio/
 ```
 
 - `draw_image` writes a PNG from ASCII rows (one character, one pixel) or ordered `shapes`; `frames` packs a spritesheet and returns the `grid` `build_sprite_frames` takes; `mirror_x`, `outline`, `palette_name` (`pico8`, `sweetie16`, `db16`, `db32`, `endesga32`, `gameboy`, `nes`, …) and `tile_check` do the rest. The payload reads the written file back as the same characters. `process_image` runs an ordered pipeline over one image, a list or a directory — `pixelate` + `quantize` + `alpha_threshold` turns soft generated "pixel art" into a true grid with a fixed palette. Any error writes nothing. See `references/pixel_art.md`.
@@ -220,15 +224,14 @@ uv run /absolute/path/to/godot/scripts/assets/make_music.py --preset overworld -
 
 ```bash
 godot --headless --path /absolute/path/to/project \
-  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
+  --script "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/core/dispatcher.gd" \
   add_export_preset '{"platform": "windows"}'
 ```
 
 That writes the preset under the platform's conventional name — `Windows Desktop`, `Web`, `macOS`, `Linux` — which is the name the wrapper takes:
 
-<!-- replay: skip — export-templates (a real export needs the 4.7 Windows template installed) -->
 ```bash
-uv run /absolute/path/to/godot/scripts/export/export_project.py \
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/export/export_project.py" \
   /absolute/path/to/project \
   "Windows Desktop" \
   /absolute/build/windows/game.exe
@@ -237,7 +240,7 @@ uv run /absolute/path/to/godot/scripts/export/export_project.py \
 - The wrapper resolves absolute paths, creates the output directory, and shells out to `godot --headless --path ... --export-release ...`.
 - After a run that exits `0` it verifies an artifact actually exists at the output path and fails otherwise. Godot's exporter has reported success while writing nothing (a missing template variant, an unwritable target), so the exit code alone is not proof of a build.
 - No preset yet? Create one without the editor: `add_export_preset '{"platform":"web"}'` (`web`, `windows`, `linux`, `macos` are verified by real exports; `android`/`ios` are written and come back `"verified": false` with the missing prerequisites). It edits `export_presets.cfg` as text, so presets you did not name keep their exact bytes. Every preflight blocker names its fix on stderr and in `fixes[]`.
-- Test a Web build with `uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web --check` (cross-origin isolation headers, `application/wasm`); never open one from `file://`. Boot a native artifact to prove it runs: `Game.app/Contents/MacOS/<Name> --headless --quit-after 20` — a build with no `run/main_scene` hangs instead of erroring.
+- Test a Web build with `uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/export/serve_web.py" /absolute/build/web --check` (cross-origin isolation headers, `application/wasm`); never open one from `file://`. Boot a native artifact to prove it runs: `Game.app/Contents/MacOS/<Name> --headless --quit-after 20` — a build with no `run/main_scene` hangs instead of erroring.
 - Run with `--preflight-only` before changing or executing a preset. Real exports preflight by default; use `--skip-preflight` only after independently verifying the environment.
 - Pass `--mode debug` for smoke builds, `--mode pack` for a `.pck`/ZIP data export, or `--mode patch --patches base.pck` for a changed-files patch.
 - Platform support comes from the preset name already defined in `export_presets.cfg`. Common platforms include Android, iOS, Web, Windows Desktop, Linux, macOS, dedicated server presets, and visionOS.
@@ -281,11 +284,11 @@ uv run /absolute/path/to/godot/scripts/export/export_project.py \
 
 ### Run And Debug
 
-1. Use host-native runtime tools such as `run_project`, `get_debug_output`, or `stop_project` when the host agent exposes them. Otherwise use the bundled runner to capture the debugger's errors as structured diagnostics: `uv run /absolute/path/to/godot/scripts/debug/run_project.py /absolute/path/to/project --quit-after 120 --timeout 60`.
+1. Use host-native runtime tools such as `run_project`, `get_debug_output`, or `stop_project` when the host agent exposes them. Otherwise use the bundled runner to capture the debugger's errors as structured diagnostics: `uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/run_project.py" /absolute/path/to/project --quit-after 120 --timeout 60`.
 2. Read the returned `diagnostics` and fix in order: parse errors first, then resource/load errors, then runtime script errors, then warnings — a single parse error usually cascades into several later errors. For each entry, open `file` at `line`, use `function`/`stack` for context, and apply the fix indicated by `category`/`suggested_fix` (details and a message→cause→fix table are in `references/debugging.md`).
 3. When the host exposes input, browser, window, screenshot, or desktop automation tools, use them to interact with the running game so you can verify the changed feature in a live session instead of relying only on static inspection.
 4. Re-run the same command after fixing and confirm `"ok": true` with `counts.errors == 0` and `counts.parse_errors == 0`. Do not assume the fix worked — the runner is the check. A `"timed_out": true` result is itself a finding (a hang or infinite loop).
-5. Boot every scene, not only the main one: `uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/path/to/project --seconds 2 --jobs 4 --fuzz` runs each `.tscn` in its own process with seeded input and reports errors, hangs, leaks and crashes per scene.
+5. Boot every scene, not only the main one: `uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/smoke_scenes.py" /absolute/path/to/project --seconds 2 --jobs 4 --fuzz` runs each `.tscn` in its own process with seeded input and reports errors, hangs, leaks and crashes per scene.
 6. Do not stop at a successful launch. Verify the implemented behavior in the running game, then read the diagnostics from the validation run and fix any reported `error` or `warning` before you finish. For a fast whole-project sanity pass without running gameplay, use the `check_project` operation to load every script and scene and surface parse/load failures; widen coverage for code paths a short boot never reaches by running the specific scene or raising `--quit-after`.
 7. Launch Godot with `-d --ignore-error-breaks`, never `-d` on its own: without `-d` the engine reports no GDScript warnings at all, and without `--ignore-error-breaks` the local debugger stops at an interactive `debug>` prompt on the first error (the bundled runners already pass both and redirect stdin from `/dev/null`). If a full interactive test is not possible in the current environment, still launch the project when feasible, perform the deepest smoke test available, and state exactly what you could not verify.
 
@@ -387,23 +390,12 @@ uv run /absolute/path/to/godot/scripts/export/export_project.py \
 - `add_export_preset`: write or update one `export_presets.cfg` entry for `web`, `windows`, `linux`, `macos`, `android` or `ios`, preserving every other preset byte for byte.
 - `check_project`: load every GDScript, scene, shader, resource, GDExtension, and editor plugin under `project_path` (default `res://`) and report failures by path, kind, and reason. It also fails a shader that does not compile, and reports `config_warnings[]` (node configuration warnings with runnable fixes) and a `physics_layers` survey. Scenes are also instantiated, which is what catches an invalid node hierarchy; set `instantiate` to `false` for a load-only pass that runs no project code.
 
-## Respect The Bundled Implementation
+## Extending The Bundled Scripts
 
-- Read `scripts/core/dispatcher.gd` when adding or changing Godot-side operations.
-- Add scene operations under `scripts/scene/`, resource operations under `scripts/resource/`, project operations under `scripts/project/`, import helpers under `scripts/import/`, asset helpers under `scripts/assets/`, mesh operations under `scripts/mesh/`, diagnostics/runners under `scripts/debug/`, shared utilities under `scripts/utils/`, and codecs/editing helpers under `scripts/core/`.
-- When adding an operation, add its `match` arm in `scripts/core/dispatcher.gd` **and** an entry in `scripts/core/op_examples.json` (`summary`, a `params` schema of only the keys that operation uses, `example`, `notes`, `see`), then run `help '{"check_examples":true}'` — it fails when the schema or the example names a key the operation does not read. Read op parameters only through `params.get("key", default)`/`params.has("key")` literals: the dispatcher derives the accepted-key list from those. The derivation is a regex over raw source, comments included, across everything the op preloads — so never read an output or parsed dictionary with a quoted-literal `get`/`has` (use `dict[&"key"]` or a helper), never write that pattern in a comment, and keep `scripts/core/utils.gd` (preloaded by every op) free of it. The catalog's per-op and per-action `params` are also what the dispatcher uses to reject a key that belongs to another operation, so keep them complete.
-- List every new python entry point in the catalog's `_tools` array (`script`, `summary`, `command`); `tests/test_help_op.py` fails when a `scripts/**/*.py` file is missing from it.
-- Keep `templates/shaders/*.gdshader` compiling (`tests/test_shader_templates.py` also proves each effect by pixels) and every playbook literally replayable (`tests/test_playbooks_replay.py` extracts the fenced `bash` blocks and runs them in fresh projects). `tests/test_help_examples.py` does the same for every `help` example and for the dispatcher blocks in this file, and `tests/test_reference_examples.py` for every other documented command:
-- **Every fenced `bash` block in `SKILL.md` and `references/*.md` is executed by `tests/test_reference_examples.py`** — one `bash -e -o pipefail` subprocess per block, in document order, against a fresh copy of the `_example_world` project. Blocks of one doc share that copy, so a later block may use a file an earlier block wrote; they never share shell variables, because a reader pastes one block at a time. What that asks of the prose:
-  - One block is one thing a reader pastes: the whole command, no `…`, no `[--flag]` grammar (put grammar in prose or a non-bash fence), no placeholder the reader is not told to replace. Output examples go in a `json` or `text` fence, never in the bash block.
-  - The placeholders are `/absolute/path/to/godot` (this skill's root, also spelled `/absolute/godot`), `/absolute/path/to/project` (the project, also `/absolute/project`), and `/absolute/<word>` for a scratch path beside the project (`/absolute/build`, `/absolute/dest`, `/absolute/moves.json`). Any other `/absolute/…` fails the test, as does a `$VAR` the block does not set itself (`SKILL`, `PROJECT`, `GODOT_SKILL_CACHE`, `HOME` and `PATH` are provided). Write the dispatcher path out in full every time: `godot --script <path that does not resolve>` prints `Can't load script` and **exits 0**, so a block built around an unset variable passes while running nothing — the harness fails any block whose log says that, whatever its exit code.
-  - A block that needs the example world to hold something builds it first, in an earlier block of the same doc — a `cat > … <<'JSON'` heredoc, a `draw_image` call, a `create_scene`.
-  - Three directives, each an HTML comment on the line before the fence: `<!-- replay: fails -->` when the block exists to show an error message (exit 0 then fails the test), `<!-- replay: display -->` when it needs a real framebuffer, and `<!-- replay: skip — <reason> -->` where `<reason>` starts with `export-templates`, `external-tool:<name>`, `network`, `destructive-outside-project` or `interactive` (a server or watcher that runs until the reader stops it). No other skip reason is accepted: rewrite the block so it runs.
-  - `display` and `export-templates` are *conditional*: the harness probes the machine (a real framebuffer; this engine's export templates, with `probe_environment.py`'s own search) and **runs** the block where it can, so a developer's Mac really exports a web, Windows and macOS build while a bare CI runner prints a SKIP line. A skip reason may add a `host:<darwin|linux|win32>` qualifier — `<!-- replay: skip — export-templates host:darwin (runs the exported .app) -->` — and then the block also has to be on that platform.
-  - While editing one doc: `uv run tests/test_reference_examples.py --doc automation_api.md --continue --keep`, or `--list` to see every block and directive without running anything.
-- Keep `templates/gdscript/*.gd` warning-free under `check_project --debug` (`tests/test_templates.py` enforces it) and reference every template from `references/playbooks.md`.
-- Keep Godot-side parameter names in snake_case when editing these scripts, for example `scene_path`, `root_node_type`, `parent_node_path`, `node_type`, and `node_name`.
-- Preserve the current relative import pattern inside the GDScript files so the headless dispatcher keeps working.
+- Read `scripts/core/dispatcher.gd` before adding or changing a Godot-side operation, and put it in the matching `scripts/<area>/` folder (`scene`, `resource`, `project`, `import`, `assets`, `mesh`, `debug`, `utils`, `core`).
+- A new operation needs both its `match` arm in `dispatcher.gd` and an entry in `scripts/core/op_examples.json` (`summary`, `params`, `example`, `notes`, `see`); then run `help '{"check_examples":true}'`. Read op parameters only through `params.get("key", default)` / `params.has("key")` literals: the dispatcher derives each operation's accepted keys from those, comments included, so never write that pattern for any other dictionary.
+- List a new python entry point in the catalog's `_tools` array, and give it a PEP 723 header so it runs with `uv run`.
+- Keep Godot-side parameter names in snake_case (`scene_path`, `root_node_type`, `parent_node_path`, `node_type`, `node_name`) and keep the relative `preload` pattern in the GDScript files so the headless dispatcher keeps working.
 
 ## Examples
 
@@ -411,7 +403,7 @@ uv run /absolute/path/to/godot/scripts/export/export_project.py \
 
 ```bash
 godot --headless --path /absolute/path/to/project \
-  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
+  --script "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/core/dispatcher.gd" \
   scene_batch '{
     "scene_path":"scenes/menu.tscn",
     "create_if_missing":true,
@@ -430,7 +422,7 @@ godot --headless --path /absolute/path/to/project \
 
 ```bash
 godot --headless --path /absolute/path/to/project \
-  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
+  --script "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/core/dispatcher.gd" \
   scene_batch '{
     "scene_path":"scenes/menu.tscn",
     "actions":[
@@ -442,9 +434,8 @@ godot --headless --path /absolute/path/to/project \
 
 ### Export A Debug Android Build
 
-<!-- replay: skip — external-tool:android-sdk (an Android export needs the SDK, a build template and a debug keystore) -->
 ```bash
-uv run /absolute/path/to/godot/scripts/export/export_project.py \
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/export/export_project.py" \
   /absolute/path/to/project \
   "Android" \
   /absolute/build/android/game.apk \
@@ -454,7 +445,7 @@ uv run /absolute/path/to/godot/scripts/export/export_project.py \
 ### Run And Read The Debugger Errors
 
 ```bash
-uv run /absolute/path/to/godot/scripts/debug/run_project.py \
+uv run "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/debug/run_project.py" \
   /absolute/path/to/project scenes/main.tscn \
   --quit-after 120 --timeout 60 --pretty
 ```
@@ -465,7 +456,7 @@ Returns JSON with a `diagnostics` array; each entry has `severity`, `category`, 
 
 ```bash
 godot --headless --path /absolute/path/to/project \
-  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
+  --script "${CLAUDE_PLUGIN_ROOT}/skills/godot/scripts/core/dispatcher.gd" \
   build_sprite_frames '{
     "scene_path":"scenes/player.tscn",
     "node_path":"root/AnimatedSprite2D",

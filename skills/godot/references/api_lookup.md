@@ -136,7 +136,6 @@ A name that does not exist is exit `1`, never an empty result. When the name is
 a Godot 3 name, the 4.x replacement is the answer (the rename table is shared
 with `scripts/debug/lint_project.py`):
 
-<!-- replay: fails -->
 ```bash
 uv run /absolute/path/to/godot/scripts/docs/api_lookup.py KinematicBody2D
 ```
@@ -376,7 +375,6 @@ caller a plain `null`. A naive runner therefore reports a crashed snippet as
 `{"ok": true, "result": null}`. This op installs a `Logger` (`OS.add_logger`)
 around the compile and the call, so every engine error becomes data:
 
-<!-- replay: fails -->
 ```bash
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
@@ -392,7 +390,6 @@ godot --headless --path /absolute/path/to/project \
 Exit code `1`. A parse error is reported the same way, numbered against **your**
 snippet rather than the generated wrapper:
 
-<!-- replay: fails -->
 ```bash
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \

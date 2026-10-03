@@ -192,7 +192,6 @@ JSON
 
 With a camera but no light, that scenario exits `1`:
 
-<!-- replay: fails -->
 ```bash
 uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/project \
   /absolute/path/to/project/scenario3d.json --log-file /absolute/path/to/project/run3d.log --pretty

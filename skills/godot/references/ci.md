@@ -44,7 +44,6 @@ jobs:
 ## Raw Recipe (No Third-Party Actions)
 
 1. Download the matching editor + export templates:
-   <!-- replay: skip — network (downloads 1.2 GB of editor and export templates, and needs sudo) -->
    ```bash
    VERSION=4.7-stable
    curl -LO https://github.com/godotengine/godot-builds/releases/download/${VERSION}/Godot_v${VERSION}_linux.x86_64.zip

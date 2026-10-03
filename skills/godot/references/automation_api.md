@@ -29,7 +29,7 @@ Invoke Godot-side operations with one JSON object:
 
 ```bash
 godot --headless --path /absolute/project \
-  --script /absolute/godot/scripts/core/dispatcher.gd \
+  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   inspect_project '{"include_files":false}'
 ```
 
@@ -48,7 +48,7 @@ Parameters are checked before anything runs, in two stages, and a rejected call 
 
 ```bash
 godot --headless --path /absolute/project \
-  --script /absolute/godot/scripts/core/dispatcher.gd \
+  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   help '{"op":"add_node"}'
 ```
 
@@ -69,7 +69,7 @@ godot --headless --path /absolute/project \
               "properties": {"position": {"__type": "Vector2", "x": 160, "y": 96}}},
   "notes": ["Node paths start at the scene root, which is always addressed as \"root\" (or \".\"): \"root/Panel/Start\".", "…"],
   "see": "SKILL.md#scene-editing-surface",
-  "command": "godot --headless --path /absolute/project --script /absolute/godot/scripts/core/dispatcher.gd add_node '{\"scene_path\":\"scenes/main.tscn\",…}'"
+  "command": "godot --headless --path /absolute/project --script /absolute/path/to/godot/scripts/core/dispatcher.gd add_node '{\"scene_path\":\"scenes/main.tscn\",…}'"
 }
 ```
 
@@ -83,9 +83,9 @@ godot --headless --path /absolute/project \
 - `help '{"check_examples":true}'` re-derives every operation's accepted keys and validates every curated `params` key, every `action_types` key and every example key (including each `actions[*]` entry) against them, printing `{"checked", "operations", "skipped", "failures":[{"op","key","suggestions"}]}` and exiting `1` on any failure. Run it after renaming a parameter: it is what stops the schema from documenting a key the operation would reject.
 - The prose lives in `scripts/core/op_examples.json`, one entry per operation (`{"summary", "params", "example", "notes", "see"}`, plus `action_types` for a batch operation, where a value of `"@<operation>"` reuses that operation's schema). Adding an operation means adding a `match` arm **and** an entry — `check_examples` reports an operation with no entry, or an entry with no `params` schema, as a failure.
 - Every example is written against **one** small project, described in the catalog's `_example_world` entry (`scenes/main.tscn` with `root/Player`, `scenes/menu.tscn` with `root/Panel/StartButton`, `scenes/level.tscn` with `root/Ground`, the 3D `scenes/kit.tscn` and `scenes/dungeon.tscn`, `art/player.png`, `audio/jump.wav`, …). Read that entry before copying a chain of examples: they are meant to be run in sequence against the same layout. Adapt the paths to your project; the shapes are what the examples teach.
-- `check_examples` only proves the *keys* are real. `tests/test_help_examples.py` builds the `_example_world` project for real and runs all 46 printed `command` lines against it, plus one action of every documented `action_types` entry, asserting a postcondition per operation — so an example whose *shape* stopped working fails the suite instead of failing the next caller.
+- `check_examples` only proves the *keys* are real. The upstream test suite ([haxqer/godot-skill](https://github.com/haxqer/godot-skill), `tests/test_help_examples.py`) builds the `_example_world` project for real and runs all 46 printed `command` lines against it, plus one action of every documented `action_types` entry, asserting a postcondition per operation — so an example whose *shape* stopped working fails the suite instead of failing the next caller.
 
-`help '{}'` also lists the skill's python entry points under `tools` (text format: a second block after the operations) — the linter, the runners, `api_lookup.py`, the asset generators, `move_resource.py`, `scaffold_project.py`, the export wrapper — each with a one-line summary and a runnable command that already carries this skill's absolute path and the current project. They are run directly, not through the dispatcher, and each prints its flags with `--help`. The list lives in the catalog's `_tools` array; `tests/test_help_op.py` fails when a `scripts/**/*.py` file is missing from it.
+`help '{}'` also lists the skill's python entry points under `tools` (text format: a second block after the operations) — the linter, the runners, `api_lookup.py`, the asset generators, `move_resource.py`, `scaffold_project.py`, the export wrapper — each with a one-line summary and a runnable command that already carries this skill's absolute path and the current project. They are run directly, not through the dispatcher, and each prints its flags with `--help`. The list lives in the catalog's `_tools` array.
 
 ## Inspection Operations
 
@@ -748,26 +748,25 @@ Godot has no built-in project test runner. `scripts/test/run_tests.py` covers th
 Install the bundled framework. It writes `res://tests/test_case.gd` (the base class) and `res://tests/test_example.gd` (a worked suite that passes as-is), and refuses to overwrite either:
 
 ```bash
-uv run /absolute/godot/scripts/test/run_tests.py /absolute/project --init-mini
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/project --init-mini
 ```
 
 Detect the framework and run every suite:
 
 ```bash
-uv run /absolute/godot/scripts/test/run_tests.py /absolute/project --pretty
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/project --pretty
 ```
 
 Run only the scripts and tests whose name contains a substring:
 
 ```bash
-uv run /absolute/godot/scripts/test/run_tests.py /absolute/project --select example
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/project --select example
 ```
 
 Name a framework explicitly, with its own tests directory and JUnit report:
 
-<!-- replay: skip — external-tool:gut (GUT must be installed under addons/gut/ first) -->
 ```bash
-uv run /absolute/godot/scripts/test/run_tests.py /absolute/project --framework gut --tests-dir test --junit-xml /absolute/output/report.xml
+uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/project --framework gut --tests-dir test --junit-xml /absolute/output/report.xml
 ```
 
 - Detection order: `addons/gut/gut_cmdln.gd` → GUT; `addons/gdUnit4/bin/GdUnitCmdTool.gd` → GdUnit4; `res://tests/test_case.gd` or any script extending it → `mini`. Default tests dir: `test/` then `tests/`. `--framework mini|gut|gdunit4` overrides.
@@ -782,15 +781,15 @@ uv run /absolute/godot/scripts/test/run_tests.py /absolute/project --framework g
 ### Static Lint (No Godot Needed)
 
 ```bash
-uv run /absolute/godot/scripts/debug/lint_project.py /absolute/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/project --pretty
 ```
 
 The same walk, restricted to some of the eleven categories:
 
 ```bash
-uv run /absolute/godot/scripts/debug/lint_project.py /absolute/project --only godot3_api,node_ref
-uv run /absolute/godot/scripts/debug/lint_project.py /absolute/project --only input_action,group_ref,res_path
-uv run /absolute/godot/scripts/debug/lint_project.py /absolute/project --only godot3_api,godot3_shader
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/project --only godot3_api,node_ref
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/project --only input_action,group_ref,res_path
+uv run /absolute/path/to/godot/scripts/debug/lint_project.py /absolute/project --only godot3_api,godot3_shader
 ```
 
 Runs without a Godot binary, without an import step, in well under a second, and prints the same JSON shape as `godot_log_parser.py`: `ok`, `counts`, and a `diagnostics` array of `severity`, `category`, `message`, `file`, `line`, `suggested_fix` (plus `rule`, a `scan_summary` of files scanned per kind, and a `suppressions` summary). Exit code is 1 when any error-level diagnostic exists.
@@ -863,14 +862,14 @@ Audit existing import state:
 
 ```bash
 godot --headless --path /absolute/project \
-  --script /absolute/godot/scripts/core/dispatcher.gd \
+  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   audit_imports '{"project_path":"res://","include_entries":true}'
 ```
 
 Run Godot's importer first, then audit:
 
 ```bash
-uv run /absolute/godot/scripts/import/import_project.py /absolute/project --pretty
+uv run /absolute/path/to/godot/scripts/import/import_project.py /absolute/project --pretty
 ```
 
 Use `--audit-only` to skip reimport. Statuses are `ok`, `missing`, `invalid`, `stale`, and `orphaned`.
@@ -878,8 +877,8 @@ Use `--audit-only` to skip reimport. Statuses are `ok`, `missing`, `invalid`, `s
 Probe the engine and host toolchain, then run the comprehensive validator:
 
 ```bash
-uv run /absolute/godot/scripts/debug/probe_environment.py /absolute/project --pretty
-uv run /absolute/godot/scripts/debug/validate_project.py /absolute/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/probe_environment.py /absolute/project --pretty
+uv run /absolute/path/to/godot/scripts/debug/validate_project.py /absolute/project --pretty
 ```
 
 `validate_project.py` loads GDScript, scenes, shaders, resources, GDExtensions, and editor plugins. When a root `.csproj` exists, it also runs Godot's `--build-solutions`; override with `--csharp always|never`.
@@ -892,9 +891,9 @@ It runs Godot with `-d --ignore-error-breaks`, so its report includes the GDScri
 
 ```bash
 godot --headless --debug --ignore-error-breaks --path /absolute/project \
-  --script /absolute/godot/scripts/core/dispatcher.gd \
+  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   check_project '{}' 2>&1 \
-  | uv run /absolute/godot/scripts/debug/godot_log_parser.py -
+  | uv run /absolute/path/to/godot/scripts/debug/godot_log_parser.py -
 ```
 
 Parameters: `project_path` (default `res://`, restricts the walk to a subtree), `instantiate` (bool, **default `true`**), `config_warnings` (bool, **default `true`**) and `physics_layers` (bool, **default `true`**). The JSON summary reports `checked`, `failed_count`, `failed` (path / kind / reason), `counts` per kind, plus `instantiate` and `scenes_instantiated`, and — from the two options below — `config_warnings[]`, `config_warning_count`, `config_hint_count`, `config_warnings_enabled` and `physics_layers`.
@@ -918,7 +917,7 @@ The two `Invalid scene:` errors name the offending *node*, never the scene, so r
 
 ```bash
 godot --headless --path /absolute/project \
-  --script /absolute/godot/scripts/core/dispatcher.gd \
+  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   check_project '{"config_warnings": true, "physics_layers": true}'
 ```
 
@@ -935,7 +934,7 @@ godot --headless --path /absolute/project \
 `run_project.py` boots the *main* scene, and `check_project` instantiates scenes without ever running `_ready`/`_process`. Neither reaches the pause menu's `_ready`, level 3, the game-over screen, or a branch that only runs while a key is held. `smoke_scenes.py` does: it boots **every** scene, one Godot process per scene, for a bounded amount of *game* time.
 
 ```bash
-uv run /absolute/godot/scripts/debug/smoke_scenes.py /absolute/project --seconds 2 --pretty
+uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/project --seconds 2 --pretty
 ```
 
 One process per scene is the point: a crash or hang cannot take the other scenes down, every scene starts with clean autoload state, and every log line belongs to exactly one scene. Each process runs with `--headless -d --ignore-error-breaks --fixed-fps 60`, stdin on `/dev/null`, in its own process group so a timeout kills the whole group.
@@ -973,14 +972,14 @@ A scene fails on an error-level diagnostic (script error, parse error, engine er
 **Fuzzing.** `--fuzz` reads the project's own `InputMap`, picks an action (project actions 80 % of the time, a curated 15 `ui_*` built-ins 20 % — the engine registers ~95 `ui_*` actions and the rest are text-editing verbs), duplicates one of that action's bound events and feeds it through `Input.parse_input_event`, so `_input`/`_unhandled_input`/`_gui_input` **and** `Input.is_action_pressed` polling both see it. Hold lengths vary from 1 to 12 frames, the exact event that was pressed is the one released, and everything is released before the run ends. `--fuzz-mouse` adds motion and clicks inside the viewport and clicks on the centres of visible `BaseButton`s. Every event is printed live as `[SMOKE_INPUT] f42 +jump` (so a hard crash still shows what was pressed) and collected in `fuzz.events`. The same `--fuzz-seed` replays byte-for-byte:
 
 ```bash
-uv run /absolute/godot/scripts/debug/smoke_scenes.py /absolute/project \
+uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/project \
   --seconds 4 --jobs 4 --fuzz --fuzz-mouse --fuzz-seed 7 --profile
 ```
 
 **Profiling and the timing note.** `--profile` adds `perf.monitors` with avg/p95/max/min/start/end for `fps`, `process_ms`, `physics_process_ms`, `object_count`, `node_count`, `orphan_node_count`, `static_memory_mb` and 2D/3D active objects + collision pairs, plus the flat `fps_avg`, `process_ms_p95`, `physics_ms_p95`. `--fixed-fps 60` decouples game time from wall time — timers, tweens and `_physics_process` all advance exactly 1/60 s per iteration — but the engine refreshes its **timing** monitors once per *real* second, so a fast run leaves them at `fps 1.0` / `0.0 ms`. Those three flat keys are reported as `null` in that case (never as a fake number) and the always-valid `perf.frame_ms` — wall time per frame, measured by the runner, which is pure CPU cost because nothing throttles a headless run — is what to read instead. For engine-reported frame times, re-run the one slow scene with `--real-time --seconds 3`. Node, object, orphan and memory monitors are exact in both modes; the dummy renderer makes draw calls / primitives / video memory meaningless, so they are not reported at all.
 
 ```bash
-uv run /absolute/godot/scripts/debug/smoke_scenes.py /absolute/project \
+uv run /absolute/path/to/godot/scripts/debug/smoke_scenes.py /absolute/project \
   --scenes res://scenes/main.tscn --profile --pretty
 ```
 
@@ -991,13 +990,13 @@ uv run /absolute/godot/scripts/debug/smoke_scenes.py /absolute/project \
 **Never `mv` a file inside a Godot project.** Dragging a file in the editor's FileSystem dock rewrites every reference to it; a shell `mv` rewrites nothing, and the damage is often *silent*. Verified on 4.7: an `[ext_resource]` carrying both `uid=` and `path=` resolves through the **uid**, so moving a texture together with its `.import` leaves the project importing, loading and running with **zero diagnostics** while the recorded path is wrong — the static `missing_resource` lint is the only thing that notices. Move the same file without its `.import` and it breaks loudly instead. Use the tool for both cases.
 
 ```bash
-uv run /absolute/godot/scripts/project/move_resource.py /absolute/project scripts/main.gd actors/main.gd --dry-run --pretty
+uv run /absolute/path/to/godot/scripts/project/move_resource.py /absolute/project scripts/main.gd actors/main.gd --dry-run --pretty
 ```
 
 Drop the `--dry-run` to apply it. A destination that is an existing folder, or ends in `/`, moves *into* it and keeps the basename:
 
 ```bash
-uv run /absolute/godot/scripts/project/move_resource.py /absolute/project art/enemy.png art/sprites/
+uv run /absolute/path/to/godot/scripts/project/move_resource.py /absolute/project art/enemy.png art/sprites/
 ```
 
 A whole reorganisation is one atomic plan in a JSON file:
@@ -1011,7 +1010,7 @@ cat > /absolute/moves.json <<'JSON'
   {"from": "theme/panel_style.tres", "to": "ui/panel_style.tres"}
 ]
 JSON
-uv run /absolute/godot/scripts/project/move_resource.py /absolute/project --map /absolute/moves.json
+uv run /absolute/path/to/godot/scripts/project/move_resource.py /absolute/project --map /absolute/moves.json
 ```
 
 Stdlib Python; Godot is only needed for the final re-import. `SRC`/`DST` are project-relative or `res://`. `SRC` may be a **file or a folder**; `DST` follows `mv` semantics — an existing folder or a trailing `/` moves *into* it keeping the basename, anything else is the new path. Destination folders are created, emptied source folders are removed.
@@ -1389,7 +1388,7 @@ Files are checkable too. `inspect_image` answers, for any PNG on disk, the quest
 
 ```bash
 godot --headless --path /absolute/project \
-  --script /absolute/godot/scripts/core/dispatcher.gd \
+  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   inspect_image '{"image_path":"art/player.png","format":"text","ascii":true,
                   "expect":{"not_blank":true,"has_alpha":true,"max_unique_colors":32}}'
 ```
@@ -1413,7 +1412,7 @@ Asks the *installed* engine for its own class reference
 method name never has to be remembered. Needs no project.
 
 ```bash
-uv run /absolute/godot/scripts/docs/api_lookup.py CharacterBody2D.move_and_slide Area2D.body_entered
+uv run /absolute/path/to/godot/scripts/docs/api_lookup.py CharacterBody2D.move_and_slide Area2D.body_entered
 ```
 
 ```
@@ -1454,7 +1453,7 @@ the value through `variant_codec.encode`.
 
 ```bash
 godot --headless --path /absolute/project \
-  --script /absolute/godot/scripts/core/dispatcher.gd \
+  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   run_gdscript '{"code":"var body := CharacterBody2D.new()\nbody.velocity = Vector2(120, 0)\nvar report := {\"speed\": body.velocity.length(), \"on_floor\": body.is_on_floor()}\nbody.free()\nreturn report"}'
 ```
 
@@ -1516,7 +1515,7 @@ Three rules the codec enforces, each of which used to be a silent wrong result:
 `godot --headless` cannot create a project — the Project Manager is the only supported author. This runs `references/playbooks.md` section 1 end to end through the dispatcher, so Godot itself writes every setting, and then proves the result.
 
 ```bash
-uv run /absolute/godot/scripts/project/scaffold_project.py /absolute/dest --preset pixel2d \
+uv run /absolute/path/to/godot/scripts/project/scaffold_project.py /absolute/dest --preset pixel2d \
   --name "Cave Diver" --autoloads game_manager,save_manager,scene_transition --with-tests --pretty
 ```
 
@@ -1548,7 +1547,7 @@ Creates or updates one entry in `export_presets.cfg` so a build can be exported 
 
 ```bash
 godot --headless --path /absolute/project \
-  --script /absolute/godot/scripts/core/dispatcher.gd \
+  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   add_export_preset '{"platform": "web"}'
 ```
 
@@ -1567,42 +1566,39 @@ The file is rewritten as **text**: every other preset, its index, its order and 
 Preflight the preset `add_export_preset` just wrote, without exporting anything. **Only a `--mode pack` preflight is template-free** — a `.pck` is project data, with no engine binary in it — so this is the form that passes on a CI runner with no templates installed:
 
 ```bash
-uv run /absolute/godot/scripts/export/export_project.py /absolute/project Web \
+uv run /absolute/path/to/godot/scripts/export/export_project.py /absolute/project Web \
   /absolute/build/web/base.pck --mode pack --preflight-only
 ```
 
 A release-mode preflight is the stricter question — *would a real export work here* — so it checks the export templates for this exact engine build and exits 1 when they are missing (`Matching Godot export templates were not found`). Run it where the templates are, not in a bare CI image:
 
-<!-- replay: skip — export-templates (a release preflight checks the installed templates) -->
 ```bash
-uv run /absolute/godot/scripts/export/export_project.py /absolute/project Web \
+uv run /absolute/path/to/godot/scripts/export/export_project.py /absolute/project Web \
   /absolute/build/web/index.html --preflight-only
 ```
 
 The export itself, same arguments without `--preflight-only`:
 
-<!-- replay: skip — export-templates (builds a real web export) -->
 ```bash
-uv run /absolute/godot/scripts/export/export_project.py /absolute/project Web \
+uv run /absolute/path/to/godot/scripts/export/export_project.py /absolute/project Web \
   /absolute/build/web/index.html
 ```
 
 `--mode pack` writes only the data `.pck`, which is what a patch is measured against:
 
 ```bash
-uv run /absolute/godot/scripts/export/export_project.py /absolute/project Web \
+uv run /absolute/path/to/godot/scripts/export/export_project.py /absolute/project Web \
   /absolute/build/web/base.pck --mode pack
 ```
 
 A patch build ships only what changed since those base `.pck`s, so something has to have changed — against an unchanged project it fails with `Save PCK: No files or changes to export.` and exit 1:
 
-<!-- replay: skip — export-templates (a patch export, verified only where the templates are installed) -->
 ```bash
 godot --headless --path /absolute/project \
-  --script /absolute/godot/scripts/core/dispatcher.gd \
+  --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   draw_image '{"output_path":"art/patch_marker.png","palette":{"w":"#ffffff"},"rows":["ww","ww"]}'
 godot --headless --path /absolute/project --import
-uv run /absolute/godot/scripts/export/export_project.py /absolute/project Web \
+uv run /absolute/path/to/godot/scripts/export/export_project.py /absolute/project Web \
   /absolute/build/web/update.pck --mode patch --patches /absolute/build/web/base.pck
 ```
 
@@ -1614,14 +1610,12 @@ Every blocker names its fix. The payload carries `errors[]` and a parallel `fixe
 
 ### serve_web.py
 
-<!-- replay: skip — export-templates (needs a real web export under /absolute/build/web) -->
 ```bash
-uv run /absolute/godot/scripts/export/serve_web.py /absolute/build/web --check --pretty
+uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web --check --pretty
 ```
 
-<!-- replay: skip — interactive (serves until the reader presses Ctrl+C) -->
 ```bash
-uv run /absolute/godot/scripts/export/serve_web.py /absolute/build/web
+uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web
 ```
 
 `python3 -m http.server` is not enough for a Godot web build: it has no MIME type for `.wasm` on most hosts (the browser then refuses the streaming compile) and no cross-origin isolation headers (so a threaded build has no `SharedArrayBuffer`). This sends `Cross-Origin-Opener-Policy: same-origin`, `Cross-Origin-Embedder-Policy: require-corp`, `Cross-Origin-Resource-Policy: cross-origin`, `Cache-Control: no-store…`, `application/wasm` and `application/octet-stream`, and binds `127.0.0.1`.

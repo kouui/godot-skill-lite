@@ -38,7 +38,6 @@ godot --headless --path /absolute/path/to/project \
 
 Then export it for real; preflight runs first and fails loudly:
 
-<!-- replay: skip — export-templates (a real export needs the 4.7 web template installed) -->
 ```bash
 uv run /absolute/path/to/godot/scripts/export/export_project.py \
   /absolute/path/to/project "Web" /absolute/build/web/index.html
@@ -46,7 +45,6 @@ uv run /absolute/path/to/godot/scripts/export/export_project.py \
 
 Then prove it serves with the headers a Godot build needs:
 
-<!-- replay: skip — export-templates (reads the build the previous command writes) -->
 ```bash
 uv run /absolute/path/to/godot/scripts/export/serve_web.py \
   /absolute/build/web --check --pretty
@@ -188,7 +186,6 @@ godot --headless --path /absolute/path/to/project \
 
 Export it — cross-exporting from another OS works, only `.dmg` needs a macOS host:
 
-<!-- replay: skip — export-templates (builds a real .app bundle) -->
 ```bash
 uv run /absolute/path/to/godot/scripts/export/export_project.py \
   /absolute/path/to/project "macOS" /absolute/build/macos/Game.app
@@ -198,7 +195,6 @@ The binary inside the bundle is `Contents/MacOS/<application/config/name>` — t
 `Game` set at the top of this file, not the preset name or the `.app` name — and
 it takes the normal engine flags:
 
-<!-- replay: skip — export-templates host:darwin (runs the binary inside an exported .app) -->
 ```bash
 /absolute/build/macos/Game.app/Contents/MacOS/Game --headless --quit-after 20
 ```
@@ -297,7 +293,6 @@ here* — so it also requires the export templates for this exact engine build a
 exits 1 with `Matching Godot export templates were not found` when they are
 missing:
 
-<!-- replay: skip — export-templates (a release preflight checks the installed templates) -->
 ```bash
 uv run /absolute/path/to/godot/scripts/export/export_project.py \
   /absolute/path/to/project "Web" /absolute/build/web/index.html --preflight-only
@@ -313,7 +308,6 @@ uv run /absolute/path/to/godot/scripts/export/export_project.py \
 Then build a delta pack against it. Something must have changed since the base,
 or the export fails with `Save PCK: No files or changes to export.` and exit 1:
 
-<!-- replay: skip — export-templates (a patch export, verified only where the templates are installed) -->
 ```bash
 godot --headless --path /absolute/path/to/project \
   --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
@@ -359,12 +353,10 @@ directory — but it still will not create the directory.
 
 ## Serving A Web Build (`serve_web.py`)
 
-<!-- replay: skip — interactive (serves until the reader presses Ctrl+C) -->
 ```bash
 uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web
 ```
 
-<!-- replay: skip — export-templates (needs a real web export under /absolute/build/web) -->
 ```bash
 uv run /absolute/path/to/godot/scripts/export/serve_web.py /absolute/build/web --check --pretty
 ```

@@ -8,7 +8,7 @@ looks plausible, the effect is missing, and nothing in the log says why unless y
 So: do not write a shader from memory. Copy one of the 24 verified files in
 `templates/shaders/`, attach it with the commands in its header, and run the verification loop at
 the bottom of this page. Every file here compiles with zero diagnostics on `godot 4.7.stable` and
-is covered by a pixel-level test in `tests/test_shader_templates.py`.
+is covered by a pixel-level test upstream ([haxqer/godot-skill](https://github.com/haxqer/godot-skill), `tests/test_shader_templates.py`).
 
 ## Contents
 
@@ -479,7 +479,6 @@ uv run /absolute/path/to/godot/scripts/debug/run_scenario.py /absolute/path/to/p
 
 Then read the numbers back rather than the pixels:
 
-<!-- replay: display -->
 ```bash
 godot --headless --path /absolute/path/to/project --script /absolute/path/to/godot/scripts/core/dispatcher.gd \
   inspect_image '{"image_path":"after.png","ascii":true,"ascii_width":48,"expect":{"not_blank":true}}'
@@ -502,5 +501,5 @@ The screenshot `summary` (and `inspect_image`) gives `dominant_colors`, `mean_co
 | `outline_3d` | `content_bbox` grows |
 | any screen reader | the frame differs from the same scene without the rect |
 
-`tests/test_shader_templates.py` is that loop written out in full: it builds a 16-cell scene, renders
-one frame and asserts each of those numbers exactly. Copy its shape when you add a shader of your own.
+The upstream `tests/test_shader_templates.py` is that loop written out in full: it builds a 16-cell scene, renders
+one frame and asserts each of those numbers exactly. Do the same for a shader of your own.

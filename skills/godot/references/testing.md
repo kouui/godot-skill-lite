@@ -69,7 +69,6 @@ This is the loop, verbatim. It was run start to finish on Godot 4.7.
 2. **Run it.** The subject does not exist yet, so the suite cannot even load —
    and says exactly that, with the line:
 
-   <!-- replay: fails -->
    ```bash
    uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --select damage
    ```
@@ -93,7 +92,6 @@ This is the loop, verbatim. It was run start to finish on Godot 4.7.
 
    Run again — red, with both values, both types, and the failing line:
 
-   <!-- replay: fails -->
    ```bash
    uv run /absolute/path/to/godot/scripts/test/run_tests.py /absolute/path/to/project --select damage
    ```

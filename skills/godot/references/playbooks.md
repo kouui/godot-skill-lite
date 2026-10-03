@@ -13,8 +13,8 @@ are numbered, into the same project — a section is only guaranteed to work in 
 project where exactly that chain has been run.
 
 Every playbook ends with a **Verify** block. A playbook is not done until that
-block runs clean. Verified on `godot 4.7.stable`: `tests/test_playbooks_replay.py`
-extracts the `bash` blocks from this file, substitutes the two placeholders and
+block runs clean. Verified on `godot 4.7.stable`: the upstream suite
+([haxqer/godot-skill](https://github.com/haxqer/godot-skill), `tests/test_playbooks_replay.py`) extracts the `bash` blocks from this file, substitutes the two placeholders and
 runs every section end to end, so a block that does not work here is a test
 failure, not a documentation bug.
 
